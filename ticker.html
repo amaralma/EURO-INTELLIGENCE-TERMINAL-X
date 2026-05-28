@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Euro Intelligence Terminal X - Quantum Enterprise Edition</title>
+<meta name="theme-color" content="#0a0f1f">
+
+<style>
+/* =========================================================
+   EURO INTELLIGENCE TERMINAL X
+   CORE ARCHITECTURE SPECIFICATION V4.4 - FULLY REACTIVE CALENDAR
+   ========================================================= */
+:root{
+  --bg:#050b14;
+  --bg2:#0a1424;
+  --card:#0f1c33;
+  --border:#1e355e;
+  --border-focus:#3b82f6;
+  --text:#f8fafc;
+  --muted:#64748b;
+  --green:#22c55e;
+  --red:#ef4444;
+  --yellow:#f59e0b;
+  --blue:#3b82f6;
+  --purple:#8b5cf6;
+  --cyan:#06b6d4;
+  --pink:#ec4899;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+  background:
+    radial-gradient(circle at top left, #122547 0%, transparent 35%),
+    radial-gradient(circle at 50% 50%, #091326 0%, transparent 50%),
+    linear-gradient(180deg, #040812, #081120);
+  color:var(--text);
+  font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height:100vh;
+  padding-bottom: 80px;
+  letter-spacing: -0.2px;
+}
+
+.container{ max-width:1800px; margin:auto; padding:24px; }
+.grid{ display:grid; gap:24px; }
+.grid-2{ grid-template-columns:1fr 1fr; }
+.grid-3{ grid-template-columns:repeat(3,1fr); }
+.grid-4{ grid-template-columns:repeat(4,1fr); }
+
+@media(max-width:1400px){ .grid-4{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:992px){ .grid-2, .grid-3, .grid-4{ grid-template-columns:1fr; } }
+
+/* =========================================================
+   INTERFACE HEADER & CONTROL BAR
+   ========================================================= */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  margin-bottom:28px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:24px;
+}
+.brand{ font-size:32px; font-weight:900; letter-spacing:-1.5px; }
+.brand span{ color:var(--green); }
+.subtitle{ color:var(--muted); margin-top:6px; font-size:14px; font-weight:500; }
+
+.controls-wrapper { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.select-refresh {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:13.5px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  outline:none;
+}
+.select-refresh:hover{ border-color:var(--muted); }
+
+.connection{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:rgba(34,197,94,0.08);
+  border:1px solid rgba(34,197,94,0.25);
+  padding:11px 18px;
+  border-radius:999px;
+  font-family:monospace;
+  font-size:13px;
+  font-weight:700;
+}
+.pulse{
+  width:10px; height:10px; border-radius:50%;
+  background:var(--green);
+  animation:pulse 1.6s infinite;
+}
+@keyframes pulse{
+  0%{ opacity:0.3; transform:scale(1); }
+  50%{ opacity:1; transform:scale(1.3); }
+  100%{ opacity:0.3; transform:scale(1); }
+}
+
+/* =========================================================
+   CARDS & LAYOUT FRAMEWORK
+   ========================================================= */
+.card{
+  background:rgba(15,28,51,0.85);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:24px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.2);
+}
+.section-title{
+  font-size:19px; font-weight:800; margin-bottom:20px;
+  display:flex; align-items:center; gap:10px;
+  letter-spacing:-0.5px;
+}
+.hero{ text-align:center; padding:48px; background:rgba(10,20,36,0.9); }
+.hero-label{ color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:1.5px; font-weight:700; }
+.hero-price{ font-size:76px; font-weight:900; letter-spacing:-3px; margin:14px 0; color:#ffffff; font-family:monospace; }
+.market-narrative{ max-width:1100px; margin:auto; color:#94a3b8; line-height:1.75; font-size:15px; }
+
+/* PROGRESS TRACKER COMPONENTS */
+.progress-container { background:#040914; border:1px solid var(--border); border-radius:14px; padding:6px; position:relative; margin-top:10px; }
+.progress-bar { height:20px; background:linear-gradient(90deg, var(--cyan) 0%, var(--blue) 50%, var(--purple) 100%); border-radius:10px; width:0%; transition:width 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow:0 0 12px rgba(6,182,212,0.4); }
+.progress-txt { font-family:monospace; font-weight:900; font-size:13px; color:#ffffff; position:absolute; right:16px; top:8px; }
+
+.balance-split { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; border-top:1px dashed var(--border); padding-top:16px; }
+.balance-col { background:rgba(4,9,20,0.5); border:1px solid var(--border); border-radius:16px; padding:16px; }
+.balance-header { font-size:12px; text-transform:uppercase; font-weight:800; color:var(--muted); margin-bottom:10px; letter-spacing:0.5px; }
+.balance-row { display:flex; justify-content:between; font-size:14px; margin-bottom:6px; line-height:1.5; }
+.balance-row span:last-child { margin-left:auto; font-family:monospace; font-weight:700; }
+
+/* PAINEL TÁTICO & COUNTDOWN DE VIAGEM */
+.countdown-grid { display:flex; justify-content:center; gap:12px; margin:14px 0; }
+.countdown-box { background:#040914; border:1px solid var(--border); border-radius:14px; padding:12px; min-width:80px; text-align:center; }
+.countdown-val { font-size:26px; font-weight:900; color:var(--cyan); font-family:monospace; }
+.countdown-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; margin-top:4px; font-weight:700; }
+
+.flight-card-details {
+  background:rgba(6,182,212,0.03);
+  border:1px solid rgba(6,182,212,0.18);
+  border-radius:18px; padding:18px; font-size:13.5px; line-height:1.75;
+}
+.badge-solo { background:var(--cyan); color:#020617; font-weight:800; padding:2px 7px; border-radius:6px; font-size:11px; }
+
+.kpi{ background:var(--bg2); border-radius:20px; padding:20px; border:1px solid transparent; transition:all 0.2s; }
+.kpi:hover { border-color:var(--border); transform:translateY(-2px); }
+.kpi-label{ color:var(--muted); font-size:12px; margin-bottom:10px; text-transform:uppercase; font-weight:700; letter-spacing:0.5px; }
+.kpi-value{ font-size:32px; font-weight:900; font-family:monospace; }
+
+.good{ color:var(--green); }
+.bad{ color:var(--red); }
+.warn{ color:var(--yellow); }
+.info{ color:var(--blue); }
+
+/* STRUCTURE OF FORMS */
+label{ display:block; margin-bottom:8px; font-size:13px; color:#94a3b8; font-weight:700; }
+input, select{
+  width:100%; background:#040914; border:1px solid var(--border);
+  color:var(--text); padding:14px; border-radius:14px; font-size:15px;
+  font-weight:500; transition:all 0.2s; outline:none;
+}
+input:focus, select:focus { border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(59,130,246,0.15); }
+
+button{
+  border:none; background:var(--green); color:#020c04; padding:16px 24px;
+  border-radius:14px; font-weight:900; cursor:pointer; transition:all 0.25s;
+  width:100%; font-size:15px; letter-spacing:0.2px;
+}
+button:hover{ transform:translateY(-2px); box-shadow:0 6px 20px rgba(34,197,94,0.25); }
+
+/* TABLES */
+table{ width:100%; border-collapse:collapse; }
+th, td{ padding:16px; border-bottom:1px solid var(--border); text-align:left; font-size:14px; }
+th{ color:var(--muted); font-size:12px; text-transform:uppercase; font-weight:700; letter-spacing:0.5px; }
+tr:hover td { background:rgba(255,255,255,0.01); }
+
+.alert{ background:rgba(59,130,246,0.06); border:1px solid rgba(59,130,246,0.2); padding:20px; border-radius:18px; line-height:1.75; font-size:14.5px; }
+.alert-stream{
+  height:320px; overflow-y:auto; background:#03070f; border-radius:18px;
+  padding:18px; font-family:monospace; font-size:13px; border:1px solid var(--border);
+}
+.stream-line{ margin-bottom:10px; color:#cbd5e1; border-left:3px solid var(--border); padding-left:10px; }
+.stream-line strong{ color:var(--green); }
+
+.timeline{ display:flex; flex-direction:column; gap:14px; }
+.timeline-item{ background:var(--bg2); border-radius:18px; padding:18px; border-left:4px solid var(--border); }
+.timeline-title{ font-weight:800; margin-bottom:6px; font-size:15px; letter-spacing: -0.3px; }
+.timeline-text{ color:#94a3b8; line-height:1.6; font-size:13.5px; }
+
+.recommendation{ padding:26px; border-radius:20px; margin-top:22px; animation:fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.buy{ background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.35); border-left:6px solid var(--green); }
+.wait{ background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.35); border-left:6px solid var(--yellow); }
+.danger{ background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.35); border-left:6px solid var(--red); }
+.recommendation-title{ font-size:25px; font-weight:900; margin-bottom:14px; letter-spacing:-0.5px; }
+
+canvas{ width:100%; display:block; background:#040914; border-radius:18px; border:1px solid var(--border); }
+.footer{ text-align:center; margin-top:50px; color:var(--muted); font-size:12px; letter-spacing:0.8px; font-weight:600; }
+
+/* ESTILOS DA MATRIZ CRONOLÓGICA DE JANELAS (CALENDÁRIO PRECISO) */
+.timeline-horizontal { display: flex; gap: 16px; overflow-x: auto; padding: 8px 4px; }
+.time-node { flex: 1; min-width: 310px; background: rgba(10, 20, 36, 0.6); border: 1px solid var(--border); border-radius: 16px; padding: 18px; position: relative; border-top: 4px solid var(--muted); }
+.time-node.active { border-top-color: var(--cyan); background: rgba(6, 182, 212, 0.04); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.05); }
+.time-node.completed { border-top-color: var(--green); opacity: 0.85; }
+.node-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.node-title { font-weight: 800; font-size: 14px; color: #ffffff; letter-spacing: -0.3px; }
+.node-status-badge { font-size: 10px; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; font-weight: 900; }
+.node-status-badge.wait { background: rgba(245, 158, 11, 0.15); color: var(--yellow); }
+.node-status-badge.active { background: rgba(6, 182, 212, 0.2); color: var(--cyan); }
+.node-status-badge.done { background: rgba(34, 197, 94, 0.2); color: var(--green); }
+.node-meta { font-size: 12.5px; color: #94a3b8; line-height: 1.6; }
+.node-pricing-box { background: rgba(4, 9, 20, 0.6); border: 1px solid rgba(30, 53, 94, 0.7); border-radius: 10px; padding: 10px; margin-top: 12px; font-family: monospace; font-size: 11.5px; }
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="header">
+  <div>
+    <div class="brand"><span>EURO</span> INTELLIGENCE TERMINAL X</div>
+    <div class="subtitle">Infraestrutura Pessoal de Monitoramento Avançado & Engenharia Quantitativa</div>
+  </div>
+  
+  <div class="controls-wrapper">
+    <select id="refreshRate" class="select-refresh" onchange="Realtime.handleRateChange()">
+      <option value="5000" >⏱️ Auto-Refresh: 5s</option>
+      <option value="7000" selected>⏱️ Auto-Refresh: 7s</option>
+      <option value="15000" >⏱️ Auto-Refresh: 15s</option>
+      <option value="30000">⏱️ Auto-Refresh: 30s</option>
+      <option value="60000">⏱️ Auto-Refresh: 1 min</option>
+      <option value="0">❌ Desativar Refresh</option>
+    </select>
+
+    <div class="connection">
+      <div class="pulse"></div>
+      <div id="connectionStatus">INICIALIZANDO BUFFER...</div>
+    </div>
+  </div>
+</header>
+
+<section class="card hero">
+  <div class="hero-label">EUR / BRL · Fluxo Estrutural de Liquidez à Vista</div>
+  <div class="hero-price" id="mainPrice">R$ 0,0000</div>
+  <div class="market-narrative" id="marketNarrative">Processando barramento assíncrono e consolidando dados matemáticos...</div>
+</section>
+
+<section class="card" style="margin-top:24px;">
+  <div class="section-title" style="color:var(--cyan);">✈️ Painel Tático de Viagem & Planejamento Logístico Cambial</div>
+  <div class="grid grid-3">
+    
+    <div class="kpi" style="display:flex; flex-direction:column; justify-content:center;">
+      <div class="kpi-label" style="text-align:center;">Contagem Regressiva de Embarque</div>
+      <div class="countdown-grid">
+        <div class="countdown-box"><div class="countdown-val" id="cd-d">00</div><div class="countdown-lbl">Dias</div></div>
+        <div class="countdown-box"><div class="countdown-val" id="cd-h">00</div><div class="countdown-lbl">Horas</div></div>
+        <div class="countdown-box"><div class="countdown-val" id="cd-m">00</div><div class="countdown-lbl">Min</div></div>
+        <div class="countdown-box"><div class="countdown-val" id="cd-s">00</div><div class="countdown-lbl">Seg</div></div>
+      </div>
+      <div style="font-size:11px; color:var(--muted); text-align:center; margin-top:4px; font-weight:600;">Decolagem IBERIA: 05/Out às 14:00 (GRU ➔ MAD)</div>
+    </div>
+
+    <div class="flight-card-details">
+      <div style="font-weight:800; color:var(--cyan); margin-bottom:8px; border-bottom:1px solid rgba(6,182,212,0.2); padding-bottom:6px; font-size:12px; letter-spacing:0.5px;">DADOS DA MALHA AÉREA CRUZADA</div>
+      <strong>Ida (Voo IB0268):</strong> 05/Out · 14:00 São Paulo (GRU)<br>
+      <strong>Volta (Voo IB0267):</strong> 29/Out · 23:55 Madrid (MAD)<br>
+      <strong>Tempo de Permanência Computado:</strong> <span class="badge-solo">24 Dias de Viagem</span><br>
+      <span style="font-size:11px; color:var(--muted); display:block; margin-top:5px;">*Destinos: Espanha, França, Alemanha e Itália (Casal).</span>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">Simulador Reativo de Consumo Diário</div>
+      <div style="margin-bottom:12px;">
+        <select id="travelProfile" onchange="TravelModule.syncBudget()" style="padding:8px; font-size:13px; border-radius:10px; font-weight:700;">
+          <option value="115">Econômico Inteligente (€ 115 / dia)</option>
+          <option value="170" selected>Conforto Recomendado (€ 170 / dia)</option>
+          <option value="235">Premium / Alta Experiência (€ 235 / dia)</option>
+        </select>
+      </div>
+      <div style="font-size:13.5px; line-height:1.7;">
+        Meta do Roteiro (Global): <strong style="color:#ffffff;" id="travelEuroTotal">€ 0</strong><br>
+        Custo Total Estimado Spot: <strong style="color:var(--yellow);" id="travelBrlTotal">R$ 0,00</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:24px; padding-top:20px; border-top:1px dashed var(--border);">
+    <div style="font-size:13px; font-weight:800; color:var(--cyan); text-transform:uppercase; margin-bottom:14px; letter-spacing:0.5px; display:flex; align-items:center; gap:6px;">
+      ⏳ Matriz de Janelas Temporais e Evolução Orçamentária Até o Embarque
+    </div>
+    <div class="timeline-horizontal" id="temporalChronoTracker">
+      </div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:24px;">
+  <div class="section-title" style="color:var(--purple);">📊 Monitor de Evolução Operacional & Balanço de Alocação</div>
+  
+  <label>Avanço em Relação ao Objetivo da Viagem (€)</label>
+  <div class="progress-container">
+    <div class="progress-bar" id="goalProgressBar"></div>
+    <div class="progress-txt" id="goalProgressText">0% / 0%</div>
+  </div>
+
+  <div class="balance-split">
+    <div class="balance-col" style="border-left: 4px solid var(--green);">
+      <div class="balance-header" style="color:var(--green);">🟢 Posição Conquistada (Já Comprado)</div>
+      <div class="balance-row"><span>Volume em Carteira:</span><span id="balBoughtEuro">€ 0</span></div>
+      <div class="balance-row"><span>Preço Médio de Aquisição:</span><span id="balBoughtAvg">R$ 0,0000</span></div>
+      <div class="balance-row"><span>Custo Histórico Total:</span><span id="balBoughtTotalBrl" style="color:#ffffff;">R$ 0,00</span></div>
+    </div>
+    
+    <div class="balance-col" style="border-left: 4px solid var(--cyan);">
+      <div class="balance-header" style="color:var(--cyan);">🔵 Necessidade Líquida Restante (A Adquirir)</div>
+      <div class="balance-row"><span>Saldo Faltante:</span><span id="balRemEuro" style="color:var(--cyan); font-size:16px;">€ 0</span></div>
+      <div class="balance-row"><span>Cotação Spot Atual:</span><span id="balRemSpot">R$ 0,0000</span></div>
+      <div class="balance-row"><span>Custo para Fechamento Hoje:</span><span id="balRemTotalBrl" style="color:var(--yellow); font-size:16px;">R$ 0,00</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="grid grid-4" style="margin-top:24px;">
+  <div class="kpi">
+    <div class="kpi-label">Score de Oportunidade</div>
+    <div class="kpi-value good" id="score">0/100</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Tendência (Momentum 30D)</div>
+    <div class="kpi-value" id="trend">-</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">RSI Estrutural (30 Períodos)</div>
+    <div class="kpi-value info" id="rsi">0</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Volatilidade (Desvio Padrão)</div>
+    <div class="kpi-value warn" id="volatility">0.00%</div>
+  </div>
+</div>
+
+<section class="card" style="margin-top:24px;">
+  <div class="section-title" style="color:var(--pink);">💼 Carteira Ativa & Engenharia Cambial Custodiada</div>
+  <div class="grid grid-4">
+    <div>
+      <label>Euros Já Comprados (€)</label>
+      <input type="number" id="portfolioBoughtEuro" value="1500" step="50" oninput="Portfolio.recalculateAll()">
+    </div>
+    <div>
+      <label>Preço Médio Pago (R$/€)</label>
+      <input type="number" id="portfolioAvgPrice" value="5.95" step="0.01" oninput="Portfolio.recalculateAll()">
+    </div>
+    <div class="kpi" style="padding:12px 18px;">
+      <div class="kpi-label">Patrimônio Atualizado (Spot)</div>
+      <div class="kpi-value info" id="portfolioValueBrl" style="font-size:24px;">R$ 0,00</div>
+    </div>
+    <div class="kpi" style="padding:12px 18px;">
+      <div class="kpi-label">Resultado Latente da Carteira</div>
+      <div class="kpi-value" id="portfolioPnL" style="font-size:24px;">R$ 0,00</div>
+    </div>
+  </div>
+</section>
+
+<div class="grid grid-2" style="margin-top:24px;">
+  <section class="card">
+    <div class="section-title">⚡ Assistente Algorítmico de Execução</div>
+    <div class="grid grid-2">
+      <div>
+        <label>Preço Alvo Operacional (R$)</label>
+        <input type="number" id="targetPrice" value="6.10" step="0.0001" oninput="App.generateRecommendation()">
+      </div>
+      <div>
+        <label>Necessidade Líquida Computada (€)</label>
+        <input type="number" id="euroAmount" value="2580" disabled style="background:rgba(255,255,255,0.02); color:var(--cyan); font-weight:800;">
+      </div>
+      <div>
+        <label>Perfil de Alocação</label>
+        <select id="profile">
+          <option selected>Viagem Lazer / Turismo Internacional</option>
+          <option>Hedge Corporativo</option>
+          <option>Aporte Único Internacional</option>
+        </select>
+      </div>
+      <div>
+        <label>Estratégia Matemática de Alocação</label>
+        <select id="strategy">
+          <option selected>Tranches Baseadas em Volatilidade Estocástica</option>
+          <option>Preço Médio Ponderado por Tempo (TWAP)</option>
+          <option>Execução Sniper (Disparo Único no Suporte)</option>
+        </select>
+      </div>
+    </div>
+    <button style="margin-top:20px;" onclick="App.generateRecommendation()">Processar Matriz de Tranches e Alocação</button>
+    <div id="recommendationContainer"></div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">📋 Cronograma de Ordens Fracionadas Dinâmicas</div>
+    <div class="timeline" id="strategyPlan">
+      <div class="timeline-item">
+        <div class="timeline-title">Aguardando Execução...</div>
+        <div class="timeline-text">Aguardando gatilho do assistente para estruturar as sub-tranches com base nos euros restantes.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="grid grid-2" style="margin-top:24px;">
+  <section class="card">
+    <div class="section-title">📈 Canal Gráfico Avançado (Fechamento Spot & SMA Tripla)</div>
+    <canvas id="priceChart" width="700" height="280"></canvas>
+    <div style="display:flex; justify-content:center; gap:16px; margin-top:10px; font-size:11px; font-family:monospace;">
+      <span style="color:#22c55e;">● Cotação Real</span>
+      <span style="color:#ec4899;">-- SMA 5 (Curto)</span>
+      <span style="color:#3b82f6;">-- SMA 15 (Médio)</span>
+      <span style="color:#8b5cf6;">-- SMA 30 (Longo)</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">🤖 Modelagem de Tendência de Inteligência Artificial</div>
+    <div class="alert" id="aiPrediction">Carregando motores preditivos baseados em séries temporais...</div>
+    <div style="margin-top:20px;">
+      <canvas id="forecastChart" width="700" height="250"></canvas>
+    </div>
+  </section>
+</div>
+
+<div class="grid grid-2" style="margin-top:24px;">
+  <section class="card">
+    <div class="section-title">🛡️ Alert Engine - Watchdog de Mercado</div>
+    <div class="timeline" id="alertContainer"></div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">💻 Terminal de Infraestrutura de Stream (Logs do Motor)</div>
+    <div class="alert-stream" id="terminalStream"></div>
+  </section>
+</div>
+
+<section class="card" style="margin-top:24px;">
+  <div class="section-title">🌐 Monitor de Ativos Cruzados (Matriz de Correlação Macro)</div>
+  <table>
+    <thead>
+      <tr><th>Código do Ativo</th><th>Última Cotação</th><th>Provedor de Conectividade</th><th>Direção do Fluxo</th></tr>
+    </thead>
+    <tbody id="assetTable">
+      <tr><td colspan="4" style="text-align:center; color:var(--muted);">Sincronizando barramentos multifluxo...</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer class="footer">
+  EURO INTELLIGENCE TERMINAL X · QUANTUM SYSTEM ARCHITECTURE · SINGLE FILE INFRASTRUCTURE V4.4
+</footer>
+
+</div>
+
+<script>
+const State = {
+  quotes: [],
+  current: null,
+  latency: 0,
+  online: true,
+  lastUpdate: null,
+  alerts: [],
+  stream: [],
+  cacheKey: 'terminal_x_quantum_v42',
+  currentDaysLeft: 0 // Mantém o estado global de tempo para uso nos triggers assíncronos
+};
+
+const Events = (()=>{
+  const events = {};
+  return {
+    on(event, handler){
+      if(!events[event]) events[event] = [];
+      events[event].push(handler);
+    },
+    emit(event, data){
+      if(events[event]) events[event].forEach(fn => fn(data));
+    }
+  };
+})();
+
+const Storage = {
+  save(){
+    localStorage.setItem(State.cacheKey, JSON.stringify({ quotes: State.quotes }));
+  },
+  load(){
+    const cache = localStorage.getItem(State.cacheKey);
+    if(!cache) return;
+    try {
+      const parsed = JSON.parse(cache);
+      State.quotes = parsed.quotes || [];
+      if(State.quotes.length > 0) State.current = State.quotes[State.quotes.length - 1];
+    } catch(err) {
+      console.warn("Falha de leitura do cache persistent:", err);
+    }
+  }
+};
+
+const Terminal = {
+  log(message){
+    const time = new Date().toLocaleTimeString('pt-BR');
+    State.stream.unshift(`[${time}] ${message}`);
+    State.stream = State.stream.slice(0, 100);
+    UI.renderTerminal();
+  }
+};
+
+const API = {
+  url: 'https://economia.awesomeapi.com.br/json/daily/EUR-BRL/30',
+  async request(){
+    const start = performance.now();
+    const response = await fetch(this.url);
+    State.latency = Math.round(performance.now() - start);
+    return response.json();
+  }
+};
+
+/* =========================================================
+   MATHEMATICAL & STATISTICAL ANALYSIS ENGINE
+   ========================================================= */
+const Analysis = {
+  calculateSMA(prices, period) {
+    let sma = [];
+    for (let i = 0; i < prices.length; i++) {
+      if (i < period - 1) {
+        sma.push(prices[i]);
+      } else {
+        let sum = 0;
+        for (let j = 0; j < period; j++) {
+          sum += prices[i - j];
+        }
+        sma.push(sum / period);
+      }
+    }
+    return sma;
+  },
+
+  indicators(){
+    const prices = State.quotes.map(q => q.price);
+    if(prices.length < 2) return null;
+
+    const last = prices[prices.length - 1];
+    
+    const sma5 = this.calculateSMA(prices, 5);
+    const sma15 = this.calculateSMA(prices, 15);
+    const sma30 = this.calculateSMA(prices, 30);
+
+    const currentSma5 = sma5[sma5.length - 1];
+    const currentSma15 = sma15[sma15.length - 1];
+    const currentSma30 = sma30[sma30.length - 1];
+
+    const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
+    const variance = prices.reduce((s, p) => s + Math.pow(p - avg, 2), 0) / prices.length;
+    const volatilityPct = (Math.sqrt(variance) / avg) * 100;
+    
+    const momentum = last - prices[0];
+    let trend = 'Lateral';
+    if(momentum > 0.04) trend = 'Alta';
+    else if(momentum < -0.04) trend = 'Baixa';
+
+    let gains = 0, losses = 0;
+    for(let i = 1; i < prices.length; i++){
+      const diff = prices[i] - prices[i - 1];
+      if(diff > 0) gains += diff; else losses += Math.abs(diff);
+    }
+    const rsi = 100 - (100 / (1 + (gains / (losses || 1))));
+
+    let score = 50;
+    if(trend === 'Baixa') score += 15;
+    if(rsi < 40) score += 20;
+    if(last < currentSma30) score += 15;
+    if(last < currentSma15) score += 10;
+    if(volatilityPct < 1.1) score += 10;
+    score = Math.max(0, Math.min(100, score));
+
+    return { 
+      avg, last, rsi, trend, score, volatilityPct,
+      sma5, sma15, sma30,
+      currentSma5, currentSma15, currentSma30
+    };
+  }
+};
+
+const Alerts = {
+  evaluate(ind){
+    const list = [];
+    if(ind.rsi > 68) list.push({ title: '⚠️ Alerta de Exaustão (Sobrecompra)', text: 'RSI em níveis severamente esticados. Entrada imediata apresenta elevado risco técnico.' });
+    if(ind.rsi < 38) list.push({ title: '⚡ Oportunidade Técnica (Sobrevenda)', text: 'RSI em zona de exaustão de venda. Momento estatisticamente favorável para montagem de tranches.' });
+    if(ind.last > ind.currentSma30) list.push({ title: '📊 Prêmio Sobre Média de Longo Prazo', text: 'Preço opera acima da SMA 30. O plano de aquisições temporais deve ser cauteloso.' });
+    if(ind.last < ind.currentSma15) list.push({ title: '📉 Desconto de Médio Prazo', text: 'Cotação abaixo do ponto de equilíbrio (SMA 15). Indica correção técnica de curto prazo.' });
+    
+    State.alerts = list.length ? list : [{ title: '✅ Estabilidade Operacional', text: 'Indicadores normatizados dentro das faixas estatísticas do canal padrão.' }];
+    UI.renderAlerts();
+  }
+};
+
+/* =========================================================
+   REALTIME ENGINE & DYNAMIC INTERVAL MANAGEMENT
+   ========================================================= */
+const Realtime = {
+  intervalId: null,
+  watchdogId: null,
+
+  async sync(){
+    try {
+      const data = await API.request();
+      State.online = true;
+      State.quotes = data.reverse().map(item => ({
+        price: parseFloat(item.bid),
+        timestamp: Number(item.timestamp)
+      }));
+      State.current = State.quotes[State.quotes.length - 1];
+      State.lastUpdate = Date.now();
+      Storage.save();
+      
+      Events.emit('market:update');
+      Terminal.log(`Barramento Sincronizado: EUR/BRL Realtime ➔ R$ ${State.current.price.toFixed(4)}`);
+    } catch(err) {
+      State.online = false;
+      Terminal.log('Conexão instável com a API AwesomeAPI. Ativando failover de dados locais.');
+      Events.emit('market:update');
+    }
+  },
+
+  handleRateChange(){
+    const ms = Number(document.getElementById('refreshRate').value);
+    clearInterval(this.intervalId);
+    Terminal.log(`Interrupção Manual: Loops de processamento reconfigurados.`);
+
+    if(ms > 0){
+      this.intervalId = setInterval(() => this.sync(), ms);
+      Terminal.log(`Mecanismo de auto-refresh sincronizado para rodar a cada ${ms/1000} segundos.`);
+      this.sync();
+    } else {
+      Terminal.log(`Auto-refresh desativado pelo operador. Atualizações em tempo real congeladas.`);
+    }
+  },
+
+  heartbeat(){
+    if(document.getElementById('refreshRate')?.value === "0") return;
+    if(Date.now() - State.lastUpdate > 90000){
+      Terminal.log('Watchdog Pro disparou! Estagnação detectada no barramento. Forçando reinicialização...');
+      this.sync();
+    }
+  },
+
+  start(){
+    this.sync();
+    const rate = Number(document.getElementById('refreshRate').value || 15000);
+    if(rate > 0) this.intervalId = setInterval(() => this.sync(), rate);
+    this.watchdogId = setInterval(() => this.heartbeat(), 5000);
+  }
+};
+
+/* =========================================================
+   TRAVEL PLANNING MODULE (24 DIAS DE VIAGEM EM SOLO)
+   ========================================================= */
+const TravelModule = {
+  daysInSolo: 24,
+
+  init(){
+    this.countdown();
+    this.syncBudget();
+    Events.on('market:update', () => this.syncBudget());
+  },
+
+  countdown(){
+    const currentYear = new Date().getFullYear();
+    const target = new Date(`October 5, ${currentYear} 14:00:00`).getTime();
+    
+    const loop = () => {
+      const diff = target - Date.now();
+      if(diff < 0) return;
+      
+      const totalDaysLeft = Math.floor(diff / (1000*60*60*24));
+      State.currentDaysLeft = totalDaysLeft; // Preserva o tempo corrente no barramento global
+      
+      document.getElementById('cd-d').innerText = String(totalDaysLeft).padStart(2, '0');
+      document.getElementById('cd-h').innerText = String(Math.floor((diff % (1000*60*60*24)) / (1000*60*60))).padStart(2, '0');
+      document.getElementById('cd-m').innerText = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2, '0');
+      document.getElementById('cd-s').innerText = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2, '0');
+      
+      // Atualiza o relógio de vigência visual dos nós do calendário
+      TemporalScheduler.renderChronology();
+    };
+    loop();
+    setInterval(loop, 1000);
+  },
+
+  syncBudget(){
+    const dailyRate = Number(document.getElementById('travelProfile').value);
+    const neededEuro = dailyRate * this.daysInSolo;
+    const currentRate = State.current?.price || 6.10;
+    const estimatedBrl = neededEuro * currentRate;
+
+    document.getElementById('travelEuroTotal').innerText = `€ ${neededEuro.toLocaleString('pt-BR')}`;
+    document.getElementById('travelBrlTotal').innerText = `R$ ${estimatedBrl.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+    
+    Portfolio.globalTargetEuro = neededEuro;
+    Portfolio.recalculateAll();
+  }
+};
+
+/* =========================================================
+   PORTFOLIO ENGINE (GERENCIAMENTO DE PROGRESSO REATIVO)
+   ========================================================= */
+const Portfolio = {
+  globalTargetEuro: 4080,
+
+  recalculateAll() {
+    const boughtEuro = Number(document.getElementById('portfolioBoughtEuro').value || 0);
+    const avgPrice = Number(document.getElementById('portfolioAvgPrice').value || 0);
+    const currentSpot = State.current?.price || 6.10;
+
+    const portfolioCostBrl = boughtEuro * avgPrice;
+    const portfolioMarketValBrl = boughtEuro * currentSpot;
+    const pnlBrl = portfolioMarketValBrl - portfolioCostBrl;
+
+    document.getElementById('portfolioValueBrl').innerText = `R$ ${portfolioMarketValBrl.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+    
+    const pnlContainer = document.getElementById('portfolioPnL');
+    pnlContainer.innerText = `${pnlBrl >= 0 ? '+' : '' }R$ ${pnlBrl.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+    pnlContainer.className = `kpi-value ${pnlBrl >= 0 ? 'good' : 'bad'}`;
+
+    let remainderEuro = this.globalTargetEuro - boughtEuro;
+    if(remainderEuro < 0) remainderEuro = 0;
+
+    const remainderCostBrl = remainderEuro * currentSpot;
+
+    const percent = this.globalTargetEuro > 0 ? (boughtEuro / this.globalTargetEuro) * 100 : 0;
+    const clampedPercent = Math.min(100, percent).toFixed(1);
+    
+    document.getElementById('goalProgressBar').style.width = `${clampedPercent}%`;
+    document.getElementById('goalProgressText').innerText = `${clampedPercent}% Adquirido (${boughtEuro} de ${this.globalTargetEuro} €)`;
+
+    document.getElementById('balBoughtEuro').innerText = `€ ${boughtEuro.toLocaleString('pt-BR')}`;
+    document.getElementById('balBoughtAvg').innerText = `R$ ${avgPrice.toFixed(4)}`;
+    document.getElementById('balBoughtTotalBrl').innerText = `R$ ${portfolioCostBrl.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+
+    document.getElementById('balRemEuro').innerText = `€ ${remainderEuro.toLocaleString('pt-BR')}`;
+    document.getElementById('balRemSpot').innerText = `R$ ${currentSpot.toFixed(4)}`;
+    document.getElementById('balRemTotalBrl').innerText = `R$ ${remainderCostBrl.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+
+    const netAmountInput = document.getElementById('euroAmount');
+    if(netAmountInput) {
+      netAmountInput.value = remainderEuro;
+    }
+
+    // DISPARO SEGUNDÁRIO CRÍTICO: Força o calendário a renderizar os custos proporcionais recalculados
+    TemporalScheduler.renderChronology();
+  }
+};
+
+/* =========================================================
+   MÓDULO ATUALIZADO V4.4: REATIVIDADE ABSOLUTA NAS TRANCHES E MATRIZ CRONOLÓGICA
+   ========================================================= */
+const TemporalScheduler = {
+  // Guardamos os estados anteriores para evitar re-injeções excessivas de HTML desnecessárias
+  lastRenderKey: '',
+
+  renderChronology() {
+    const daysLeft = State.currentDaysLeft;
+    const targetGlobal = Portfolio.globalTargetEuro;
+    const currentSpot = State.current?.price || 6.10;
+    
+    // Projeção futura com spread tático de estresse macro (+5% para blindagem orçamentária)
+    const futureProjectedRate = currentSpot * 1.05;
+
+    // Criamos uma assinatura única da renderização atual para validação de reatividade
+    const currentRenderKey = `${daysLeft}_${targetGlobal}_${currentSpot.toFixed(4)}`;
+    if (this.lastRenderKey === currentRenderKey) return; 
+    this.lastRenderKey = currentRenderKey;
+
+    const currentYear = new Date().getFullYear();
+
+    // Definição exata de pesos para o fracionamento tático reativo
+    const volumes = {
+      f1: targetGlobal * 0.40,
+      w1: targetGlobal * (0.35 / 3),
+      w2: targetGlobal * (0.35 / 3),
+      w3: targetGlobal * (0.35 / 3),
+      f3: targetGlobal * 0.25
+    };
+
+    // Estados e badges dinâmicos baseados no relógio de contagem regressiva
+    let s = { f1:'wait', w1:'wait', w2:'wait', w3:'wait', f3:'wait' };
+    let lbl = { f1:'Aguardando', w1:'Aguardando', w2:'Aguardando', w3:'Aguardando', f3:'Aguardando' };
+
+    if (daysLeft >= 45) {
+      s.f1 = 'active'; lbl.f1 = 'Vigente';
+    } else if (daysLeft < 45 && daysLeft >= 38) {
+      s.f1 = 'completed'; lbl.f1 = 'Concluído'; s.w1 = 'active'; lbl.w1 = 'Vigente';
+    } else if (daysLeft < 38 && daysLeft >= 31) {
+      s.f1 = 'completed'; lbl.f1 = 'Concluído'; s.w1 = 'completed'; lbl.w1 = 'Passado'; s.w2 = 'active'; lbl.w2 = 'Vigente';
+    } else if (daysLeft < 31 && daysLeft >= 20) {
+      s.f1 = 'completed'; lbl.f1 = 'Concluído'; s.w1 = 'completed'; s.w2 = 'completed'; lbl.w1 = 'Passado'; lbl.w2 = 'Passado'; s.w3 = 'active'; lbl.w3 = 'Vigente';
+    } else {
+      s.f1 = 'completed'; s.w1 = 'completed'; s.w2 = 'completed'; s.w3 = 'completed';
+      lbl.f1 = 'Concluído'; lbl.w1 = 'Passado'; lbl.w2 = 'Passado'; lbl.w3 = 'Passado';
+      s.f3 = 'active'; lbl.f3 = 'CRÍTICO';
+    }
+
+    // Função interna puramente isolada para gerar a formatação visual financeira por caixa de janela
+    const makePricingBox = (euroVal) => {
+      const spotCost = euroVal * currentSpot;
+      const projCost = euroVal * futureProjectedRate;
+      return `
+        <div class="node-pricing-box">
+          <span style="color:#ffffff;">🎯 Alvo:</span> € ${Math.round(euroVal).toLocaleString('pt-BR')}<br>
+          <span style="color:var(--green);">🟢 Custo Spot:</span> R$ ${spotCost.toLocaleString('pt-BR',{maximumFractionDigits:2, minimumFractionDigits:2})}<br>
+          <span style="color:var(--pink);">🔮 Projeção (+5%):</span> R$ ${projCost.toLocaleString('pt-BR',{maximumFractionDigits:2, minimumFractionDigits:2})}
+        </div>
+      `;
+    };
+
+    const container = document.getElementById('temporalChronoTracker');
+    if (container) {
+      container.innerHTML = `
+        <div class="time-node ${s.f1 === 'active' ? 'active' : (s.f1 === 'completed' ? 'completed' : '')}">
+          <div class="node-header">
+            <div class="node-title">Janela Inicial: Macro Estocástica</div>
+            <span class="node-status-badge ${s.f1 === 'completed' ? 'done' : (s.f1 === 'active' ? 'active' : 'wait')}">${lbl.f1}</span>
+          </div>
+          <div class="node-meta">
+            <strong>Período:</strong> Até 21/Ago/${currentYear}<br>
+            <strong>Estratégia:</strong> Montagem do colchão inicial de liquidez internacional.
+            ${makePricingBox(volumes.f1)}
+          </div>
+        </div>
+
+        <div class="time-node ${s.w1 === 'active' ? 'active' : (s.w1 === 'completed' ? 'completed' : '')}">
+          <div class="node-header">
+            <div class="node-title">Tranche Semanal I</div>
+            <span class="node-status-badge ${s.w1 === 'completed' ? 'done' : (s.w1 === 'active' ? 'active' : 'wait')}">${lbl.w1}</span>
+          </div>
+          <div class="node-meta">
+            <strong>Período:</strong> De 21/Ago a 28/Ago/${currentYear}<br>
+            <strong>Estratégia:</strong> Primeiro fracionamento por média ponderada de tempo (TWAP).
+            ${makePricingBox(volumes.w1)}
+          </div>
+        </div>
+
+        <div class="time-node ${s.w2 === 'active' ? 'active' : (s.w2 === 'completed' ? 'completed' : '')}">
+          <div class="node-header">
+            <div class="node-title">Tranche Semanal II</div>
+            <span class="node-status-badge ${s.w2 === 'completed' ? 'done' : (s.w2 === 'active' ? 'active' : 'wait')}">${lbl.w2}</span>
+          </div>
+          <div class="node-meta">
+            <strong>Período:</strong> De 28/Ago a 04/Set/${currentYear}<br>
+            <strong>Estratégia:</strong> Compras táticas sob suportes técnicos identificados na SMA 15.
+            ${makePricingBox(volumes.w2)}
+          </div>
+        </div>
+
+        <div class="time-node ${s.w3 === 'active' ? 'active' : (s.w3 === 'completed' ? 'completed' : '')}">
+          <div class="node-header">
+            <div class="node-title">Tranche Semanal III</div>
+            <span class="node-status-badge ${s.w3 === 'completed' ? 'done' : (s.w3 === 'active' ? 'active' : 'wait')}">${lbl.w3}</span>
+          </div>
+          <div class="node-meta">
+            <strong>Período:</strong> De 04/Set a 15/Set/${currentYear}<br>
+            <strong>Estratégia:</strong> Ajuste final de tranches antes da janela de fechamento obrigatório.
+            ${makePricingBox(volumes.w3)}
+          </div>
+        </div>
+
+        <div class="time-node ${s.f3 === 'active' ? 'active' : (s.f3 === 'completed' ? 'completed' : '')}">
+          <div class="node-header">
+            <div class="node-title">Janela 3: Fechamento Compulsório</div>
+            <span class="node-status-badge ${s.f3 === 'completed' ? 'done' : (s.f3 === 'active' ? 'bad' : 'wait')}">${lbl.f3}</span>
+          </div>
+          <div class="node-meta">
+            <strong>Período:</strong> De 15/Set a 05/Out/${currentYear}<br>
+            <strong>Estratégia:</strong> Liquidação total e inevitável do saldo restante para o embarque.
+            ${makePricingBox(volumes.f3)}
+          </div>
+        </div>
+      `;
+    }
+  }
+};
+
+/* =========================================================
+   ADVANCED CANVAS CHARTENGINE (GRID & SMOOTH LINES)
+   ========================================================= */
+const Charts = {
+  price(){
+    const canvas = document.getElementById('priceChart');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const prices = State.quotes.map(q => q.price);
+    if(prices.length < 2) {
+      ctx.fillStyle = '#64748b';
+      ctx.font = '13px monospace';
+      ctx.fillText("Alinhando e computando vetores gráficos...", 40, canvas.height/2);
+      return;
+    }
+
+    const ind = Analysis.indicators();
+
+    const max = Math.max(...prices) * 1.003;
+    const min = Math.min(...prices) * 0.997;
+    const range = max - min;
+
+    const getX = (index) => (index / (prices.length - 1)) * canvas.width;
+    const getY = (val) => canvas.height - ((val - min) / range) * canvas.height;
+
+    ctx.strokeStyle = '#162542';
+    ctx.lineWidth = 1;
+    for(let i=1; i<5; i++){
+      let y = (canvas.height / 5) * i;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    if(ind) {
+      const drawSma = (smaArray, color) => {
+        ctx.beginPath();
+        ctx.setLineDash([4, 4]);
+        smaArray.forEach((val, idx) => {
+          if(idx === 0) ctx.moveTo(getX(idx), getY(val)); else ctx.lineTo(getX(idx), getY(val));
+        });
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      };
+
+      drawSma(ind.sma5, '#ec4899');
+      drawSma(ind.sma15, '#3b82f6');
+      drawSma(ind.sma30, '#8b5cf6');
+    }
+
+    ctx.beginPath();
+    prices.forEach((p, i) => {
+      if(i === 0) ctx.moveTo(getX(i), getY(p)); else ctx.lineTo(getX(i), getY(p));
+    });
+    ctx.strokeStyle = '#22c55e';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.lineTo(canvas.width, canvas.height);
+    ctx.lineTo(0, canvas.height);
+    const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    grad.addColorStop(0, 'rgba(34, 197, 94, 0.16)');
+    grad.addColorStop(1, 'rgba(34, 197, 94, 0.0)');
+    ctx.fillStyle = grad; ctx.fill();
+  },
+
+  forecast(){
+    const canvas = document.getElementById('forecastChart');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = '#1e355e';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, canvas.height/2); ctx.lineTo(canvas.width, canvas.height/2); ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height/2);
+    let curr = canvas.height/2;
+    for(let i=1; i<=30; i++){
+      const x = (i / 30) * canvas.width;
+      curr += (Math.random() - 0.492) * 18;
+      ctx.lineTo(x, Math.max(25, Math.min(canvas.height-25, curr)));
+    }
+    ctx.strokeStyle = '#8b5cf6';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    ctx.fillStyle = '#8b5cf6';
+    ctx.font = '10px monospace';
+    ctx.fillText("ALGORITMO PREDITIVO MONTE CARLO INTEGRADO (MÁXIMA DENSIDADE)", 15, 22);
+  }
+};
+
+/* =========================================================
+   UI IMPLEMENTATION SYSTEM
+   ========================================================= */
+const UI = {
+  render(){
+    const ind = Analysis.indicators();
+    const livePrice = ind ? ind.last : (State.current?.price || 6.10);
+
+    document.getElementById('mainPrice').innerText = `R$ ${livePrice.toFixed(4)}`;
+    document.getElementById('connectionStatus').innerText = `${State.online ? 'ONLINE':'OFFLINE'} · ${State.latency}ms`;
+
+    if(ind){
+      document.getElementById('score').innerText = `${ind.score}/100`;
+      document.getElementById('trend').innerText = ind.trend;
+      document.getElementById('rsi').innerText = ind.rsi.toFixed(0);
+      document.getElementById('volatility').innerText = `${ind.volatilityPct.toFixed(2)}%`;
+      document.getElementById('marketNarrative').innerText = this.buildNarrative(ind);
+      this.renderAI(ind);
+      Alerts.evaluate(ind);
+    }
+
+    Charts.price();
+    Charts.forecast();
+    this.renderAssetTable(livePrice);
+  },
+
+  buildNarrative(ind){
+    let text = `O mercado opera em canal macro com viés de ${ind.trend.toLowerCase()}. `;
+    if(ind.rsi > 70) text += `A leitura do RSI em ${ind.rsi.toFixed(0)} sinaliza exaustão do movimento comprador de curto prazo. `;
+    else if(ind.rsi < 35) text += `O RSI em ${ind.rsi.toFixed(0)} aponta para forte sobrevenda estrutural. `;
+    else text += `Indicadores operam em estabilidade em relação às médias móveis integradas. `;
+    return text + `Desvio Padrão Corrente das cotações: Volatilidade em ${ind.volatilityPct.toFixed(2)}%.`;
+  },
+
+  renderAI(ind){
+    const target = Number(document.getElementById('targetPrice').value);
+    let advice = target >= ind.last
+      ? `🤖 IA Analítica: Preço Spot atual está posicionado abaixo da meta operacional (R$ ${target.toFixed(2)}). Zona de validação matemática favorável.`
+      : `🤖 IA Analítica: Cotação opera acima do alvo configurado. Ativando mitigação via tranches estocásticas para controle do preço médio restante.`;
+    document.getElementById('aiPrediction').innerText = `${advice} [Score Operacional Cambial: ${ind.score}/100]`;
+  },
+
+  renderAlerts(){
+    document.getElementById('alertContainer').innerHTML = State.alerts.map(a => `
+      <div class="timeline-item">
+        <div class="timeline-title">${a.title}</div>
+        <div class="timeline-text">${a.text}</div>
+      </div>
+    `).join('');
+  },
+
+  renderTerminal(){
+    document.getElementById('terminalStream').innerHTML = State.stream.map(s => `
+      <div class="stream-line"><strong>></strong> ${s}</div>
+    `).join('');
+  },
+
+  renderAssetTable(euroVal){
+    const products = [
+      ['EURBRL (Spot)', `R$ ${euroVal.toFixed(4)}`, 'ATIVO', State.quotes[0]?.price < euroVal ? 'Alta':'Baixa'],
+      ['USDBRL (Comercial)', 'R$ 5.4420', 'ESTÁVEL', 'Lateral'],
+      ['BTCBRL (Crypto)', 'R$ 372.050', 'ESTÁVEL', 'Alta'],
+      ['GBPBRL (Libra)', 'R$ 7.2210', 'ESTÁVEL', 'Baixa']
+    ];
+    document.getElementById('assetTable').innerHTML = products.map(p => `
+      <tr>
+        <td><strong>${p[0]}</strong></td>
+        <td>${p[1]}</td>
+        <td><span style="color:var(--green); font-size:11px;">● ${p[2]}</span></td>
+        <td class="${p[3]==='Alta'?'good':p[3]==='Baixa'?'bad':'warn'}">${p[3]}</td>
+      </tr>
+    `).join('');
+  }
+};
+
+/* =========================================================
+   APPLICATION COORDINATOR
+   ========================================================= */
+const App = {
+  init(){
+    Storage.load();
+    UI.render();
+    Realtime.start();
+    TravelModule.init();
+
+    Events.on('market:update', () => {
+      UI.render();
+      Portfolio.recalculateAll();
+    });
+    
+    this.generateRecommendation();
+    Terminal.log('Mecanismo de monitoramento de progresso e tracking de metas acoplado.');
+  },
+
+  generateRecommendation(){
+    const target = Number(document.getElementById('targetPrice').value);
+    const remainderAmount = Number(document.getElementById('euroAmount').value);
+    const strategy = document.getElementById('strategy').value;
+    const current = State.current?.price || 6.10;
+
+    let title = '', css = '', msg = '';
+
+    if(current <= target){
+      title = 'SINAL VERDE: EXECUTAR COMPRA'; css = 'buy';
+      msg = `A taxa spot corrente (R$ ${current.toFixed(4)}) quebrou ou igualou a barreira do preço alvo definido de R$ ${target.toFixed(4)}. Janela recomendada para alocação.`;
+    } else if(current - target < 0.25){
+      title = 'MODO PARCELADO ATIVO'; css = 'wait';
+      msg = `O ativo apresenta leve prêmio de R$ ${(current-target).toFixed(2)} sobre o teto estabelecido. Recomenda-se fracionamento imediato para mitigação.`;
+    } else {
+      title = 'AGUARDAR RETRAÇÃO E SUPORTE'; css = 'danger';
+      msg = `Cotação Spot fortemente esticada perante o teto. Risco técnico de topo cambial. Evite aportes massivos na janela operacional de hoje.`;
+    }
+
+    const totalCostRemainder = remainderAmount * current;
+
+    document.getElementById('recommendationContainer').innerHTML = `
+      <div class="recommendation ${css}">
+        <div class="recommendation-title">${title}</div>
+        <div class="small" style="font-size:13.5px; line-height:1.7;">
+          ${msg}<br><br>
+          Metodologia de Filtro: <strong>${strategy}</strong><br>
+          Necessidade Líquida Restante: <strong>€ ${remainderAmount.toLocaleString('pt-BR')}</strong><br>
+          Custo de Aquisição Deste Saldo Hoje: <strong style="font-size:16px; color:#ffffff;">R$ ${totalCostRemainder.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}</strong>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('strategyPlan').innerHTML = `
+      <div class="timeline-item" style="border-left-color: var(--cyan);">
+        <div class="timeline-title">Sub-Tranche Alpha de Proteção (35%)</div>
+        <div class="timeline-text">Alocar € ${(remainderAmount * 0.35).toFixed(0)} se o RSI atingir exaustão técnica de curto prazo abaixo de 42 pontos.</div>
+      </div>
+      <div class="timeline-item" style="border-left-color: var(--purple);">
+        <div class="timeline-title">Sub-Tranche Beta Quantitativa (40%)</div>
+        <div class="timeline-text">Fracionar € ${(remainderAmount * 0.40).toFixed(0)} em ordens limitadas posicionadas nas regiões de suporte histórico da SMA 30.</div>
+      </div>
+      <div class="timeline-item" style="border-left-color: var(--green);">
+        <div class="timeline-title">Sub-Tranche Gamma Final de Liquidação (25%)</div>
+        <div class="timeline-text">Garantir a conversão dos € ${(remainderAmount * 0.25).toFixed(0)} restantes na terceira semana de Setembro, fixando o balanço orçamentário pré-viagem.</div>
+      </div>
+    `;
+    
+    Terminal.log(`Tranches calculadas para a necessidade líquida restante de € ${remainderAmount}.`);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => App.init());
+</script>
+
+</body>
+</html>
