@@ -258,51 +258,55 @@ canvas{ width:100%; display:block; background:#040914; border-radius:18px; borde
 </section>
 
 <section class="card" style="margin-top:24px;">
-  <div class="section-title" style="color:var(--cyan);">✈️ Painel Tático de Viagem & Planejamento Logístico Cambial</div>
-  <div class="grid grid-3">
-    
-    <div class="kpi" style="display:flex; flex-direction:column; justify-content:center;">
-      <div class="kpi-label" style="text-align:center;">Contagem Regressiva de Embarque</div>
-      <div class="countdown-grid">
-        <div class="countdown-box"><div class="countdown-val" id="cd-d">00</div><div class="countdown-lbl">Dias</div></div>
-        <div class="countdown-box"><div class="countdown-val" id="cd-h">00</div><div class="countdown-lbl">Horas</div></div>
-        <div class="countdown-box"><div class="countdown-val" id="cd-m">00</div><div class="countdown-lbl">Min</div></div>
-        <div class="countdown-box"><div class="countdown-val" id="cd-s">00</div><div class="countdown-lbl">Seg</div></div>
-      </div>
-      <div style="font-size:11px; color:var(--muted); text-align:center; margin-top:4px; font-weight:600;">Decolagem IBERIA: 05/Out às 14:00 (GRU ➔ MAD)</div>
+  <div class="section-title" style="color:var(--pink);">💼 Carteira Ativa & Histórico de Aportes Cambiais Custodiados</div>
+  
+  <div class="grid grid-4" style="margin-bottom: 20px; background: rgba(255,255,255,0.02); padding: 16px; border-radius: 16px; border: 1px dashed var(--border);">
+    <div>
+      <label>Data da Compra</label>
+      <input type="date" id="inputPurchaseDate">
     </div>
-
-    <div class="flight-card-details">
-      <div style="font-weight:800; color:var(--cyan); margin-bottom:8px; border-bottom:1px solid rgba(6,182,212,0.2); padding-bottom:6px; font-size:12px; letter-spacing:0.5px;">DADOS DA MALHA AÉREA CRUZADA</div>
-      <strong>Ida (Voo IB0268):</strong> 05/Out · 14:00 São Paulo (GRU)<br>
-      <strong>Volta (Voo IB0267):</strong> 29/Out · 23:55 Madrid (MAD)<br>
-      <strong>Tempo de Permanência Computado:</strong> <span class="badge-solo">24 Dias de Viagem</span><br>
-      <span style="font-size:11px; color:var(--muted); display:block; margin-top:5px;">*Destinos: Espanha, França, Alemanha e Itália (Casal).</span>
+    <div>
+      <label>Volume Comprado (€)</label>
+      <input type="number" id="inputPurchaseEuro" placeholder="Ex: 500" step="10">
     </div>
-
-    <div class="kpi">
-      <div class="kpi-label">Simulador Reativo de Consumo Diário</div>
-      <div style="margin-bottom:12px;">
-        <select id="travelProfile" onchange="TravelModule.syncBudget()" style="padding:8px; font-size:13px; border-radius:10px; font-weight:700;">
-          <option value="115">Econômico Inteligente (€ 115 / dia)</option>
-          <option value="170" selected>Conforto Recomendado (€ 170 / dia)</option>
-          <option value="235">Premium / Alta Experiência (€ 235 / dia)</option>
-        </select>
-      </div>
-      <div style="font-size:13.5px; line-height:1.7;">
-        Meta do Roteiro (Global): <strong style="color:#ffffff;" id="travelEuroTotal">€ 0</strong><br>
-        Custo Total Estimado Spot: <strong style="color:var(--yellow);" id="travelBrlTotal">R$ 0,00</strong>
-      </div>
+    <div>
+      <label>Taxa Paga (R$ / €)</label>
+      <input type="number" id="inputPurchaseRate" placeholder="Ex: 5.95" step="0.0001">
     </div>
-
+    <div style="display: flex; align-items: flex-end;">
+      <button type="button" style="background: var(--purple); color: #fff;" onclick="Portfolio.addPurchase()">Adicionar à Carteira</button>
+    </div>
   </div>
 
-  <div style="margin-top:24px; padding-top:20px; border-top:1px dashed var(--border);">
-    <div style="font-size:13px; font-weight:800; color:var(--cyan); text-transform:uppercase; margin-bottom:14px; letter-spacing:0.5px; display:flex; align-items:center; gap:6px;">
-      ⏳ Matriz de Janelas Temporais e Evolução Orçamentária Até o Embarque
+  <div class="grid grid-2">
+    <div>
+      <table style="font-size: 13px;">
+        <thead>
+          <tr><th>Data</th><th>Volume (€)</th><th>Taxa (R$)</th><th>Total (R$)</th><th>Ações</th></tr>
+        </thead>
+        <tbody id="purchaseHistoryTable">
+          </tbody>
+      </table>
     </div>
-    <div class="timeline-horizontal" id="temporalChronoTracker">
+    
+    <div class="grid grid-2">
+      <div class="kpi" style="padding:12px 18px;">
+        <div class="kpi-label">Volume Total Acumulado</div>
+        <div class="kpi-value" id="portfolioBoughtEuroTotal" style="font-size:24px; color: var(--green);">€ 0</div>
       </div>
+      <div class="kpi" style="padding:12px 18px;">
+        <div class="kpi-label">Preço Médio Ponderado</div>
+        <div class="kpi-value" id="portfolioAvgPriceComputed" style="font-size:24px; color: #ffffff;">R$ 0,0000</div>
+      </div>
+      <div class="kpi" style="padding:12px 18px;">
+        <div class="kpi-label">Patrimônio Atualizado (Spot)</div>
+        <div class="kpi-value info" id="portfolioValueBrl" style="font-size:24px;">R$ 0,00</div>
+      </div>
+      <div class="kpi" style="padding:12px 18px;">
+        <div class="kpi-label">Resultado Latente (PnL)</div>
+        <div class="kpi-value" id="portfolioPnL" style="font-size:24px;">R$ 0,00</div>
+      </div>
+    </div>
   </div>
 </section>
 
