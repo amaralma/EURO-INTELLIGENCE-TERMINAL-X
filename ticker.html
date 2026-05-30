@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Euro Intelligence Terminal X - Quantum Flight Suite V7.0</title>
+<title>Euro Intelligence Terminal X - Multi-Chart Suite V7.5</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Urbanist:wght@600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 <!-- Identificação de Autoria e Direitos Autorais -->
     <meta name="author" content="Marcelo Amaral">
     <meta name="copyright" content="© 2026 AmaralMA. Todos os direitos reservados.">
@@ -18,10 +16,9 @@
 <!-- Metadados de Negócio e Contato -->
     <meta name="reply-to" content="amaralma@gmail.com">
     <link rel="author" href="https://amaral.ma">
-   
 <style>
 /* =========================================================
-   EURO INTELLIGENCE TERMINAL X - SPECIFICATION V7.0
+   EURO INTELLIGENCE TERMINAL X - SPECIFICATION V7.5
    ========================================================= */
 :root{
   --bg:#050b14;
@@ -253,7 +250,7 @@ canvas{ width:100%; display:block; }
 
 <header>
   <div class="brand">
-    <h1>EURO INTELLIGENCE <span>TERMINAL X</span> <small style="font-size:11px; color:var(--muted)">QUANTUM V7.0</small></h1>
+    <h1>EURO INTELLIGENCE <span>TERMINAL X</span> <small style="font-size:11px; color:var(--muted)">ANALYTICS SUITE V7.5</small></h1>
   </div>
 
   <div class="controls-bar">
@@ -276,7 +273,7 @@ canvas{ width:100%; display:block; }
 
 <section class="card span-12" style="background: linear-gradient(90deg, rgba(16, 25, 45, 0.8), rgba(11, 22, 41, 0.9)); border-left: 4px solid var(--neon-accent); margin-bottom: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
   <div style="font-size: 14px; font-weight: 500;" id="algo-signal">
-    <i class="fa-solid fa-sync fa-spin"></i> Inicializando telemetria de voo e radar de som integrado...
+    <i class="fa-solid fa-sync fa-spin"></i> Inicializando telemetria de gráficos múltiplos estruturados...
   </div>
   <div style="font-size: 11px; color: var(--muted)">ROUTE SELECTION: GRU ✈ MAD (Iberia Fleet)</div>
 </section>
@@ -403,34 +400,67 @@ canvas{ width:100%; display:block; }
     <div class="timeline" id="strategyPlan"></div>
   </section>
 
-  <section class="card span-6">
-    <div class="card-title">
-      <span>Streaming Chart Estruturado (Eixos e Alvos)</span>
-      <span style="font-size: 9px; color: var(--muted);"><span style="color:#00ff66">■</span> API <span style="color:#ef4444">■</span> Alvo <span style="color:#3b82f6">■</span> Médio</span>
+  <section class="card span-12" style="background: #091121; border-color: var(--cyan);">
+    <div class="card-title" style="color: var(--cyan); font-weight: bold;">
+      <span><i class="fa-solid fa-chart-pie"></i> Multi-Chart Analytics System (Estatísticas Ativas)</span>
+      <span>SISTEMA UNIFICADO</span>
     </div>
-    <div class="canvas-container">
-      <canvas id="priceChart" height="150"></canvas>
+    
+    <div class="layout-grid">
+      <div class="span-4">
+        <label style="margin-bottom: 6px; color: var(--text);">1. Streaming Real vs Alvo</label>
+        <div class="canvas-container">
+          <canvas id="priceChart" height="150"></canvas>
+        </div>
+        <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
+          <span style="color:#00ff66">■</span> API Euro <span style="color:#ef4444">■</span> Preço Alvo
+        </div>
+      </div>
+
+      <div class="span-4">
+        <label style="margin-bottom: 6px; color: var(--text);">2. Distribuição Histórica de Taxas</label>
+        <div class="canvas-container">
+          <canvas id="historyChart" height="150"></canvas>
+        </div>
+        <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
+          <span style="color:#3b82f6">■</span> Taxa Fixada <span style="color:#8b5cf6">▬</span> Seu Breakeven Médio
+        </div>
+      </div>
+
+      <div class="span-4">
+        <label style="margin-bottom: 6px; color: var(--text);">3. Alocação Física de Capital (R$)</label>
+        <div class="canvas-container" style="display:flex; justify-content:center; align-items:center;">
+          <canvas id="allocationChart" height="150" style="max-width:150px;"></canvas>
+        </div>
+        <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
+          <span style="color:#22c55e">■</span> Liquidado <span style="color:#f59e0b">■</span> Exposto à API
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="card span-6">
+  <section class="card span-12">
     <div class="card-title"><span>Quantum Flight Logistics Monitor</span><i class="fa-solid fa-plane-departure" style="color:var(--cyan)"></i></div>
-    <div class="flight-row">
-      <div>✈ Voo Operado por: <strong>Iberia Airlines (IB6824)</strong></div>
-      <div style="color: var(--neon-green)">AGENDADO</div>
-    </div>
-    <div class="flight-row">
-      <div>📍 Rota Executiva: <strong>GRU (Guarulhos) ➔ MAD (Madrid Barajas)</strong></div>
-      <div>DIRETO</div>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px;">
-      <div class="kpi" style="padding: 6px;">
-        <div class="kpi-label" style="margin:0;">Status do Bilhete</div>
-        <div style="font-size: 13px; font-weight: bold; color: var(--yellow);">E-TICKET EMITIDO</div>
+    <div class="layout-grid">
+      <div class="span-6">
+        <div class="flight-row">
+          <div>✈ Voo Operado por: <strong>Iberia Airlines (IB6824)</strong></div>
+          <div style="color: var(--neon-green)">AGENDADO</div>
+        </div>
+        <div class="flight-row">
+          <div>📍 Rota Executiva: <strong>GRU (Guarulhos) ➔ MAD (Madrid Barajas)</strong></div>
+          <div>DIRETO</div>
+        </div>
       </div>
-      <div class="kpi" style="padding: 6px;">
-        <div class="kpi-label" style="margin:0;">Janela de Check-in</div>
-        <div style="font-size: 13px; font-weight: bold; color: var(--muted);">LIBERA EM 03/OUT</div>
+      <div class="span-6" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <div class="kpi" style="padding: 10px;">
+          <div class="kpi-label" style="margin:0;">Status do Bilhete</div>
+          <div style="font-size: 13px; font-weight: bold; color: var(--yellow);">E-TICKET EMITIDO</div>
+        </div>
+        <div class="kpi" style="padding: 10px;">
+          <div class="kpi-label" style="margin:0;">Janela de Check-in</div>
+          <div style="font-size: 13px; font-weight: bold; color: var(--muted);">LIBERA EM 03/OUT</div>
+        </div>
       </div>
     </div>
   </section>
@@ -481,12 +511,12 @@ canvas{ width:100%; display:block; }
 
 </div>
 
-<footer class="footer">
-  Quantum Architecture V7.0 · Realtime Engine Active · Sound Engine Component Built-In · Flight Logger V7
+<footer style="margin-top: 30px; text-align: center; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 15px;">
+  Quantum Analytics Architecture V7.5 · Multi-Chart Cluster Active · Core Systems Protected
 </footer>
 
 <script>
-// Base de dados operacional com registros reais da planilha
+// Base de dados com registros reais da sua planilha
 let database = [
   { id: 1, date: '2026-03-04', brl: 1000.00, rate: 6.3383 },
   { id: 2, date: '2026-02-06', brl: 2197.49, rate: 6.3838 },
@@ -504,7 +534,7 @@ const State = {
   stream: [],
   isPaused: false,
   audioAlertEnabled: true,
-  cacheKey: 'terminal_x_v7_cache'
+  cacheKey: 'terminal_x_v75_cache'
 };
 
 const Events = (()=>{
@@ -515,7 +545,6 @@ const Events = (()=>{
   };
 })();
 
-// Audio Context Radar Engine para gerar bipes nativos sem dependência de arquivos externos
 const AudioRadar = {
   ctx: null,
   lastTrigger: 0,
@@ -536,22 +565,21 @@ const AudioRadar = {
   triggerBeep() {
     if(!State.audioAlertEnabled) return;
     const now = Date.now();
-    if(now - this.lastTrigger < 8000) return; // Evita bipes repetidos em loops muito rápidos
+    if(now - this.lastTrigger < 8000) return;
     this.lastTrigger = now;
-
     try {
       if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, this.ctx.currentTime); // Tom alto de alerta cristalino
+      osc.frequency.setValueAtTime(880, this.ctx.currentTime);
       gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + 0.4);
-    } catch(e) { console.error("Audio Engine bloqueada pelo navegador."); }
+    } catch(e) { console.error("Audio block active."); }
   }
 };
 
@@ -574,7 +602,7 @@ const Storage = {
       try {
         const parsed = JSON.parse(cacheQuotes); State.quotes = parsed.quotes || [];
         if(State.quotes.length > 0) State.current = State.quotes[State.quotes.length - 1];
-      } catch(err) { console.warn(err); }
+      } catch(err) {}
     }
     const cacheConfig = localStorage.getItem(State.cacheKey + '_config');
     if(cacheConfig) {
@@ -585,15 +613,7 @@ const Storage = {
         if(cfg.travelProfile) document.getElementById('travelProfile').value = cfg.travelProfile;
         if(cfg.refreshInterval) document.getElementById('refreshIntervalInput').value = cfg.refreshInterval;
         if(cfg.isPaused !== undefined) State.isPaused = cfg.isPaused;
-        if(cfg.audioAlertEnabled !== undefined) {
-          State.audioAlertEnabled = cfg.audioAlertEnabled;
-          if(!State.audioAlertEnabled) {
-            const el = document.getElementById('audioAlertToggle');
-            el.classList.remove('active');
-            el.innerHTML = `<i class="fa-solid fa-volume-xmark"></i> <span>SONAR ALVO: DESLIGADO</span>`;
-          }
-        }
-      } catch(err) { console.warn(err); }
+      } catch(err) {}
     }
   }
 };
@@ -602,7 +622,7 @@ const Terminal = {
   log(message){
     const time = new Date().toLocaleTimeString('pt-BR');
     State.stream.unshift(`[${time}] ${message}`);
-    State.stream = State.stream.slice(0, 80);
+    State.stream = State.stream.slice(0, 40);
     const streamContainer = document.getElementById('terminalStream');
     if(streamContainer) {
       streamContainer.innerHTML = State.stream.map(line => `<div class="stream-line"><strong>></strong> ${line}</div>`).join('');
@@ -666,7 +686,7 @@ const Realtime = {
       Events.emit('market:update');
       Terminal.log(`Preço sincronizado com AwesomeAPI: R$ ${State.current.price.toFixed(4)}`);
     } catch(err) {
-      Terminal.log('Conexão instável com a API. Mantendo cache estrutural.');
+      Terminal.log('Instabilidade de conexão com servidor cambial.');
     }
   },
   handleIntervalChange() { this.restartLoop(); },
@@ -674,14 +694,10 @@ const Realtime = {
     State.isPaused = !State.isPaused;
     Storage.saveUserPreferences();
     const btn = document.getElementById('toggleRefreshBtn');
-    const pulse = document.getElementById('connectionPulse');
-    const statusText = document.getElementById('connectionStatus');
     if(State.isPaused) {
       btn.innerText = "RETOMAR"; btn.classList.add('paused');
-      pulse.style.animation = 'none'; statusText.innerText = 'PAUSADO';
     } else {
       btn.innerText = "PAUSAR"; btn.classList.remove('paused');
-      pulse.style.animation = 'pulse 1.5s infinite';
       this.sync(); this.restartLoop();
     }
   },
@@ -698,9 +714,15 @@ const Realtime = {
   }
 };
 
-// GRÁFICO TOTALMENTE IDENTIFICÁVEL COM EIXOS CARTESIANOS E ALVOS RENDERIZADOS
+// MULTI-CHART MATRIX ENGINE (V7.5)
 const Charts = {
-  price(){
+  renderAll(breakEven, aggBRL, shortfallBRL) {
+    this.priceStreaming();
+    this.historyRates(breakEven);
+    this.allocationPie(aggBRL, shortfallBRL);
+  },
+
+  priceStreaming(){
     const canvas = document.getElementById('priceChart'); if(!canvas) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     const prices = State.quotes.map(q => q.price); if(prices.length < 2) return;
@@ -708,43 +730,81 @@ const Charts = {
     const max = Math.max(...prices, parseFloat(document.getElementById('targetPrice').value || 0)) * 1.01;
     const min = Math.min(...prices, parseFloat(document.getElementById('targetPrice').value || 9)) * 0.99;
     
-    const paddingLeft = 45;
-    const paddingBottom = 20;
-    const graphWidth = canvas.width - paddingLeft - 10;
-    const graphHeight = canvas.height - paddingBottom - 10;
+    const pLeft = 35, pBottom = 15;
+    const gW = canvas.width - pLeft - 5, gH = canvas.height - pBottom - 5;
 
-    // Desenhar Eixos Cartesianos Finos
-    ctx.strokeStyle = 'rgba(30, 53, 94, 0.5)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(paddingLeft, 5);
-    ctx.lineTo(paddingLeft, canvas.height - paddingBottom);
-    ctx.lineTo(canvas.width - 5, canvas.height - paddingBottom);
-    ctx.stroke();
+    ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)';
+    ctx.beginPath(); ctx.moveTo(pLeft, 5); ctx.lineTo(pLeft, canvas.height - pBottom); ctx.lineTo(canvas.width - 5, canvas.height - pBottom); ctx.stroke();
 
-    // Adicionar os Marcadores de Texto de Preço (Eixo Y)
-    ctx.fillStyle = 'var(--muted)';
-    ctx.font = '9px monospace';
-    ctx.fillText(max.toFixed(2), 5, 12);
-    ctx.fillText(((max + min) / 2).toFixed(2), 5, (graphHeight / 2) + 5);
-    ctx.fillText(min.toFixed(2), 5, canvas.height - paddingBottom - 2);
-
-    // Linha Estratégica: Preço Alvo Desejado do Usuário (Red)
     const targetPriceVal = parseFloat(document.getElementById('targetPrice').value) || 6.10;
-    const targetY = canvas.height - paddingBottom - ((targetPriceVal - min) / (max - min)) * graphHeight;
-    ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(paddingLeft, targetY); ctx.lineTo(canvas.width - 5, targetY); ctx.stroke();
-    ctx.setLineDash([]);
+    const targetY = canvas.height - pBottom - ((targetPriceVal - min) / (max - min)) * gH;
+    ctx.strokeStyle = 'rgba(239, 68, 68, 0.5)'; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(pLeft, targetY); ctx.lineTo(canvas.width - 5, targetY); ctx.stroke(); ctx.setLineDash([]);
 
-    // Linha Real da AwesomeAPI (Green Neon)
-    ctx.beginPath(); ctx.lineWidth = 2; ctx.strokeStyle = '#00ff66';
+    ctx.beginPath(); ctx.lineWidth = 1.5; ctx.strokeStyle = '#00ff66';
     prices.forEach((p, i) => {
-      const x = paddingLeft + (i / (prices.length - 1)) * graphWidth;
-      const y = canvas.height - paddingBottom - ((p - min) / (max - min)) * graphHeight;
+      const x = pLeft + (i / (prices.length - 1)) * gW;
+      const y = canvas.height - pBottom - ((p - min) / (max - min)) * gH;
       if(i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     });
     ctx.stroke();
+  },
+
+  historyRates(breakEven) {
+    const canvas = document.getElementById('historyChart'); if(!canvas) return;
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(database.length === 0) return;
+
+    const rates = database.map(d => d.rate);
+    const max = Math.max(...rates, breakEven) * 1.02;
+    const min = Math.min(...rates, breakEven) * 0.98;
+
+    const pLeft = 35, pBottom = 15;
+    const gW = canvas.width - pLeft - 5, gH = canvas.height - pBottom - 5;
+
+    // Linha de Eixo
+    ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)';
+    ctx.beginPath(); ctx.moveTo(pLeft, 5); ctx.lineTo(pLeft, canvas.height - pBottom); ctx.lineTo(canvas.width - 5, canvas.height - pBottom); ctx.stroke();
+
+    // Barras de Ordens Realizadas
+    database.forEach((item, i) => {
+      const x = pLeft + (i / (database.length)) * gW + (gW / (database.length * 4));
+      const y = canvas.height - pBottom - ((item.rate - min) / (max - min)) * gH;
+      ctx.fillStyle = '#3b82f6';
+      ctx.fillRect(x, y, Math.max(8, gW / (database.length * 2)), canvas.height - pBottom - y);
+    });
+
+    // Linha do Breakeven Médio Cruzando
+    if(breakEven > 0) {
+      const beY = canvas.height - pBottom - ((breakEven - min) / (max - min)) * gH;
+      ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(pLeft, beY); ctx.lineTo(canvas.width - 5, beY); ctx.stroke();
+    }
+  },
+
+  allocationPie(aggBRL, shortfallBRL) {
+    const canvas = document.getElementById('allocationChart'); if(!canvas) return;
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const total = aggBRL + shortfallBRL; if(total === 0) return;
+    const pctLiquidated = aggBRL / total;
+    
+    const cX = canvas.width / 2; const cY = canvas.height / 2;
+    const radius = Math.min(cX, cY) - 10;
+
+    // Fatia 1: Comprado / Liquidado
+    ctx.beginPath(); ctx.moveTo(cX, cY);
+    ctx.arc(cX, cY, radius, -Math.PI/2, (-Math.PI/2) + (Math.PI * 2 * pctLiquidated));
+    ctx.fillStyle = '#22c55e'; ctx.fill();
+
+    // Fatia 2: Restante Exposto
+    ctx.beginPath(); ctx.moveTo(cX, cY);
+    ctx.arc(cX, cY, radius, (-Math.PI/2) + (Math.PI * 2 * pctLiquidated), (-Math.PI/2) + (Math.PI * 2));
+    ctx.fillStyle = '#f59e0b'; ctx.fill();
+
+    // Centro do Donut Fino (Design Cyberpunk)
+    ctx.beginPath(); ctx.arc(cX, cY, radius * 0.6, 0, Math.PI * 2);
+    ctx.fillStyle = '#020612'; ctx.fill();
   }
 };
 
@@ -752,7 +812,6 @@ const App = {
   init(){
     Realtime.start();
     this.runCountdown();
-    
     Events.on('market:update', () => {
       this.renderTechnicalKPIs();
       this.calculateMetrics();
@@ -773,15 +832,13 @@ const App = {
 
   handleProfileChange() {
     const dailyCost = Number(document.getElementById('travelProfile').value);
-    const calculatedTotal = dailyCost * 24;
-    document.getElementById('euroAmount').value = calculatedTotal;
+    document.getElementById('euroAmount').value = dailyCost * 24;
     Storage.saveUserPreferences();
     this.calculateMetrics();
   },
 
   renderTechnicalKPIs(){
-    const ind = Analysis.indicators();
-    if(!ind) return;
+    const ind = Analysis.indicators(); if(!ind) return;
 
     document.getElementById('mainPrice').innerText = `R$ ${ind.last.toFixed(4)}`;
     document.getElementById('score').innerText = `${ind.score}/100`;
@@ -789,24 +846,15 @@ const App = {
     document.getElementById('rsi').innerText = ind.rsi.toFixed(0);
     document.getElementById('volatility').innerText = `${ind.volatilityPct.toFixed(2)}%`;
     
-    document.getElementById('marketNarrative').innerText = `Mercado operando em viés de ${ind.trend}. RSI de 14 dias posicionado em ${ind.rsi.toFixed(0)} pontos.`;
-    
-    if(!State.isPaused) {
-      document.getElementById('connectionStatus').innerText = `ONLINE · ${State.latency}ms`;
-    }
+    document.getElementById('marketNarrative').innerText = `Mercado em viés de ${ind.trend}. RSI Estocástico em ${ind.rsi.toFixed(0)} pts. Cluster multi-gráfico sincronizado.`;
 
-    // GATILHO DO RADAR SONORO E GLOW DE INTERFACE
     const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
     const heroCard = document.getElementById('heroPriceCard');
-    
     if(ind.last <= targetRate || Math.abs(ind.last - targetRate) < 0.02) {
-      heroCard.classList.add('radar-alert');
-      AudioRadar.triggerBeep();
+      heroCard.classList.add('radar-alert'); AudioRadar.triggerBeep();
     } else {
       heroCard.classList.remove('radar-alert');
     }
-
-    Charts.price();
   },
 
   calculateMetrics() {
@@ -815,9 +863,7 @@ const App = {
     const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
     const currentRate = State.current ? State.current.price : 5.95;
 
-    // Render do Ledger Histórico com Edição Habilitada
-    const tbody = document.getElementById('ledger-entries');
-    tbody.innerHTML = '';
+    const tbody = document.getElementById('ledger-entries'); tbody.innerHTML = '';
     
     database.forEach(item => {
       const computedEUR = item.brl / item.rate;
@@ -860,13 +906,10 @@ const App = {
     const badge = document.getElementById('remainder-status-badge');
     if(remainderEuro <= 0) {
       badge.innerText = "META ALCANÇADA"; badge.style.backgroundColor = "rgba(34,197,94,0.2)"; badge.style.color = "var(--neon-green)";
-      deltaEl.className = "good";
     } else if(deltaBrl <= 0) {
       badge.innerText = "ZONA ECONÔMICA"; badge.style.backgroundColor = "rgba(34,197,94,0.1)"; badge.style.color = "var(--green)";
-      deltaEl.className = "good";
     } else {
       badge.innerText = "RISCO CAMBIAL"; badge.style.backgroundColor = "rgba(239,68,68,0.1)"; badge.style.color = "var(--red)";
-      deltaEl.className = "bad";
     }
 
     document.getElementById('progress-percentage').innerText = `${progressPct.toFixed(1)}%`;
@@ -874,29 +917,25 @@ const App = {
 
     const algoSignal = document.getElementById('algo-signal');
     if(remainderEuro <= 0) {
-      algoSignal.innerHTML = `🎉 <strong style="color:var(--neon-green)">POSIÇÃO COMPLETA:</strong> Meta atingida!`;
+      algoSignal.innerHTML = `🎉 <strong style="color:var(--neon-green)">POSIÇÃO COMPLETA:</strong> Meta 100% batida!`;
     } else if(currentRate < targetRate) {
-      algoSignal.innerHTML = `🟢 <strong style="color:var(--neon-green)">OPORTUNIDADE:</strong> API abaixo da meta. Sonar monitorando bipes táticos.`;
+      algoSignal.innerHTML = `🟢 <strong style="color:var(--neon-green)">OPORTUNIDADE TÁTICA:</strong> Cotação abaixo do preço alvo desejado.`;
     } else {
-      algoSignal.innerHTML = `🔴 <strong>MERCADO ZONA ALTA:</strong> Cotação acima do planejado. Aguarde correções do RSI.`;
+      algoSignal.innerHTML = `🔴 <strong>PREÇO EM ZONA DE RISCO:</strong> Acima da meta estipulada.`;
     }
 
     this.refreshTranches(remainderEuro);
+    
+    // Dispara a renderização do cluster de gráficos do painel estatístico
+    Charts.renderAll(breakEven, aggBRL, shortfallBrl);
   },
 
   refreshTranches(remainderEuro) {
-    const strategy = document.getElementById('strategy').value;
     const planContainer = document.getElementById('strategyPlan');
-
     if(remainderEuro <= 0) {
-      planContainer.innerHTML = `
-        <div class="timeline-item" style="border-left-color: var(--neon-green)">
-          <div class="timeline-title" style="color: var(--neon-green)">Posição Liquidada</div>
-        </div>
-      `;
+      planContainer.innerHTML = `<div class="timeline-item" style="border-left-color: var(--neon-green)"><div class="timeline-title" style="color: var(--neon-green)">Posição Liquidada</div></div>`;
       return;
     }
-
     const slice = remainderEuro / 3;
     planContainer.innerHTML = `
       <div class="timeline-item" style="border-left-color: var(--cyan)">
@@ -910,35 +949,23 @@ const App = {
     const currentRate = State.current ? State.current.price : 5.95;
     const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
     let title='', css='', text='';
-
     if(currentRate <= targetRate) {
-      title = 'EXECUTAR ORDENS'; css = 'buy'; text = 'Cotação atual vantajosa em relação ao alvo planejado.';
+      title = 'EXECUTAR ORDENS'; css = 'buy'; text = 'Aproveite as janelas atuais para aportes fracionados.';
     } else {
-      title = 'AGUARDAR CORREÇÃO'; css = 'danger'; text = 'Aguarde o sonar emitir bipes em janelas de baixa do mercado.';
+      title = 'AGUARDAR CORREÇÃO'; css = 'danger'; text = 'Aguarde recuo técnico em direção ao preço alvo configurado.';
     }
-
-    document.getElementById('recommendationContainer').innerHTML = `
-      <div class="recommendation ${css}">
-        <div class="recommendation-title">${title}</div>
-        <div class="small">${text}</div>
-      </div>
-    `;
+    document.getElementById('recommendationContainer').innerHTML = `<div class="recommendation ${css}"><div class="recommendation-title">${title}</div><div class="small">${text}</div></div>`;
   },
 
-  // FUNÇÃO REQUISITADA: EDIÇÃO DE ITENS REALIZADOS NO LEDGER
   editOrder(id) {
-    const order = database.find(item => item.id === id);
-    if(!order) return;
-
+    const order = database.find(item => item.id === id); if(!order) return;
     document.getElementById('edit-order-id').value = order.id;
     document.getElementById('order-brl').value = order.brl;
     document.getElementById('order-rate').value = order.rate;
-    
     document.getElementById('boleta-mode-title').innerText = "Modificar Ordem Existente";
     document.getElementById('submit-boleta-btn').innerText = "Salvar Alterações";
     document.getElementById('cancel-edit-btn').style.display = "inline-block";
-
-    Terminal.log(`Ordem carregada para edição na boleta. Modifique os parâmetros desejados.`);
+    Terminal.log(`Ordem carregada para edição técnica.`);
   },
 
   cancelEdit() {
@@ -957,19 +984,17 @@ const App = {
 
     if(brl > 0 && rate > 0) {
       if(editId) {
-        // Modo Edição: localiza e substitui
         const index = database.findIndex(item => item.id == editId);
         if(index !== -1) {
           database[index].brl = brl;
           database[index].rate = rate;
-          Terminal.log(`Ordem ID ${editId} atualizada com sucesso no Ledger.`);
+          Terminal.log(`Ordem ID ${editId} modificada e recalculada.`);
         }
         this.cancelEdit();
       } else {
-        // Modo Nova Ordem
         const dateISO = new Date().toISOString().split('T')[0];
         database.push({ id: Date.now(), date: dateISO, brl: brl, rate: rate });
-        Terminal.log(`Nova ordem injetada: R$ ${brl} convertidos a R$ ${rate}.`);
+        Terminal.log(`Nova ordem acoplada ao ledger histórico.`);
         document.getElementById('boleta-form').reset();
       }
       this.calculateMetrics();
@@ -978,7 +1003,7 @@ const App = {
 
   removeOrder(id) {
     database = database.filter(item => item.id !== id);
-    Terminal.log(`Ordem removida dos registros operacionais.`);
+    Terminal.log(`Ordem expurgada da matriz operacional.`);
     this.calculateMetrics();
   }
 };
