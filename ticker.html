@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Euro Intelligence Terminal X - Multi-Chart Suite V7.5</title>
+<title>Euro Intelligence Terminal X - Multi-Chart Suite V7.6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Urbanist:wght@600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght=400;500;700&family=Urbanist:wght=600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- Identificação de Autoria e Direitos Autorais -->
     <meta name="author" content="Marcelo Amaral">
@@ -18,7 +19,7 @@
     <link rel="author" href="https://amaral.ma">
 <style>
 /* =========================================================
-   EURO INTELLIGENCE TERMINAL X - SPECIFICATION V7.5
+   EURO INTELLIGENCE TERMINAL X - SPECIFICATION V7.6
    ========================================================= */
 :root{
   --bg:#050b14;
@@ -231,10 +232,11 @@ th{ color:var(--neon-accent); font-size:11px; text-transform: uppercase; border-
 .danger{ background:rgba(239,68,68,.1); border:1px solid var(--red); }
 .recommendation-title{ font-size:20px; font-weight:900; margin-bottom:6px; font-family: 'Urbanist', sans-serif; }
 
-.canvas-container { position: relative; background: #020612; border-radius: 6px; border: 1px solid var(--border); padding: 8px; }
-canvas{ width:100%; display:block; }
+.canvas-container { position: relative; background: #020612; border-radius: 6px; border: 1px solid var(--border); padding: 8px; width: 100%; height: 150px; }
+canvas{ width:100%; height: 100%; display:block; }
 
 .flight-row { display: flex; justify-content: space-between; align-items: center; background: #020612; border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 11px; }
+.flight-badge { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; background: var(--border); color: var(--text); }
 
 .progress-wrapper { background: var(--bg); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px; }
 .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--neon-accent)); width: 0%; transition: width 0.5s ease; }
@@ -250,7 +252,7 @@ canvas{ width:100%; display:block; }
 
 <header>
   <div class="brand">
-    <h1>EURO INTELLIGENCE <span>TERMINAL X</span> <small style="font-size:11px; color:var(--muted)">ANALYTICS SUITE V7.5</small></h1>
+    <h1>EURO INTELLIGENCE <span>TERMINAL X</span> <small style="font-size:11px; color:var(--muted)">ANALYTICS SUITE V7.6</small></h1>
   </div>
 
   <div class="controls-bar">
@@ -275,7 +277,7 @@ canvas{ width:100%; display:block; }
   <div style="font-size: 14px; font-weight: 500;" id="algo-signal">
     <i class="fa-solid fa-sync fa-spin"></i> Inicializando telemetria de gráficos múltiplos estruturados...
   </div>
-  <div style="font-size: 11px; color: var(--muted)">ROUTE SELECTION: GRU ✈ MAD (Iberia Fleet)</div>
+  <div style="font-size: 11px; color: var(--muted)">BOOKING CODE REFERENCE: <strong style="color:var(--cyan)">S8W6I</strong></div>
 </section>
 
 <div class="layout-grid">
@@ -402,15 +404,15 @@ canvas{ width:100%; display:block; }
 
   <section class="card span-12" style="background: #091121; border-color: var(--cyan);">
     <div class="card-title" style="color: var(--cyan); font-weight: bold;">
-      <span><i class="fa-solid fa-chart-pie"></i> Multi-Chart Analytics System (Estatísticas Ativas)</span>
-      <span>SISTEMA UNIFICADO</span>
+      <span><i class="fa-solid fa-chart-pie"></i> Multi-Chart Analytics System (Estatísticas Simétricas)</span>
+      <span>CLUSTER ATIVO</span>
     </div>
     
     <div class="layout-grid">
       <div class="span-4">
         <label style="margin-bottom: 6px; color: var(--text);">1. Streaming Real vs Alvo</label>
         <div class="canvas-container">
-          <canvas id="priceChart" height="150"></canvas>
+          <canvas id="priceChart"></canvas>
         </div>
         <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
           <span style="color:#00ff66">■</span> API Euro <span style="color:#ef4444">■</span> Preço Alvo
@@ -420,7 +422,7 @@ canvas{ width:100%; display:block; }
       <div class="span-4">
         <label style="margin-bottom: 6px; color: var(--text);">2. Distribuição Histórica de Taxas</label>
         <div class="canvas-container">
-          <canvas id="historyChart" height="150"></canvas>
+          <canvas id="historyChart"></canvas>
         </div>
         <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
           <span style="color:#3b82f6">■</span> Taxa Fixada <span style="color:#8b5cf6">▬</span> Seu Breakeven Médio
@@ -429,8 +431,8 @@ canvas{ width:100%; display:block; }
 
       <div class="span-4">
         <label style="margin-bottom: 6px; color: var(--text);">3. Alocação Física de Capital (R$)</label>
-        <div class="canvas-container" style="display:flex; justify-content:center; align-items:center;">
-          <canvas id="allocationChart" height="150" style="max-width:150px;"></canvas>
+        <div class="canvas-container">
+          <canvas id="allocationChart"></canvas>
         </div>
         <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
           <span style="color:#22c55e">■</span> Liquidado <span style="color:#f59e0b">■</span> Exposto à API
@@ -440,26 +442,26 @@ canvas{ width:100%; display:block; }
   </section>
 
   <section class="card span-12">
-    <div class="card-title"><span>Quantum Flight Logistics Monitor</span><i class="fa-solid fa-plane-departure" style="color:var(--cyan)"></i></div>
+    <div class="card-title"><span>Quantum Flight Logistics Monitor (Iberia Database)</span><i class="fa-solid fa-plane-departure" style="color:var(--cyan)"></i></div>
     <div class="layout-grid">
       <div class="span-6">
         <div class="flight-row">
-          <div>✈ Voo Operado por: <strong>Iberia Airlines (IB6824)</strong></div>
-          <div style="color: var(--neon-green)">AGENDADO</div>
+          <div>🛫 OUTBOUND: <strong>IB6824 · Iberia Fleet</strong></div>
+          <div class="flight-badge" style="color: var(--neon-green); border-color: var(--green);">05/OUT · 14:30</div>
         </div>
         <div class="flight-row">
-          <div>📍 Rota Executiva: <strong>GRU (Guarulhos) ➔ MAD (Madrid Barajas)</strong></div>
-          <div>DIRETO</div>
+          <div>📍 ROUTE: <strong>GRU (Guarulhos) ➔ MAD (Madrid Barajas)</strong></div>
+          <div style="color: var(--muted); font-size: 10px;">ARRIVES 05:55 (+1) · SEAT 32A</div>
         </div>
       </div>
-      <div class="span-6" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-        <div class="kpi" style="padding: 10px;">
-          <div class="kpi-label" style="margin:0;">Status do Bilhete</div>
-          <div style="font-size: 13px; font-weight: bold; color: var(--yellow);">E-TICKET EMITIDO</div>
+      <div class="span-6">
+        <div class="flight-row">
+          <div>🛬 INBOUND: <strong>IB6827 · Iberia Fleet</strong></div>
+          <div class="flight-badge" style="color: var(--cyan); border-color: var(--blue);">29/OUT · 23:55</div>
         </div>
-        <div class="kpi" style="padding: 10px;">
-          <div class="kpi-label" style="margin:0;">Janela de Check-in</div>
-          <div style="font-size: 13px; font-weight: bold; color: var(--muted);">LIBERA EM 03/OUT</div>
+        <div class="flight-row">
+          <div>📍 ROUTE: <strong>MAD (Madrid Barajas) ➔ GRU (Guarulhos)</strong></div>
+          <div style="color: var(--muted); font-size: 10px;">ARRIVES 06:45 (+1) · SEAT 31A</div>
         </div>
       </div>
     </div>
@@ -512,11 +514,11 @@ canvas{ width:100%; display:block; }
 </div>
 
 <footer style="margin-top: 30px; text-align: center; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 15px;">
-  Quantum Analytics Architecture V7.5 · Multi-Chart Cluster Active · Core Systems Protected
+  Quantum Analytics Architecture V7.6 · PNR S8W6I Sync Lock · Core Systems Protected
 </footer>
 
 <script>
-// Base de dados com registros reais da sua planilha
+// Base de dados estável com os registros reais coletados da sua planilha
 let database = [
   { id: 1, date: '2026-03-04', brl: 1000.00, rate: 6.3383 },
   { id: 2, date: '2026-02-06', brl: 2197.49, rate: 6.3838 },
@@ -534,7 +536,7 @@ const State = {
   stream: [],
   isPaused: false,
   audioAlertEnabled: true,
-  cacheKey: 'terminal_x_v75_cache'
+  cacheKey: 'terminal_x_v76_cache'
 };
 
 const Events = (()=>{
@@ -714,16 +716,30 @@ const Realtime = {
   }
 };
 
-// MULTI-CHART MATRIX ENGINE (V7.5)
+// MULTI-CHART MATRIX ENGINE (V7.6 CORREÇÃO DE SIMETRIA)
 const Charts = {
-  renderAll(breakEven, aggBRL, shortfallBRL) {
-    this.priceStreaming();
-    this.historyRates(breakEven);
-    this.allocationPie(aggBRL, shortfallBRL);
+  resizeCanvas(canvas) {
+    const rect = canvas.parentNode.getBoundingClientRect();
+    canvas.width = rect.width - 16;
+    canvas.height = 134;
   },
 
-  priceStreaming(){
-    const canvas = document.getElementById('priceChart'); if(!canvas) return;
+  renderAll(breakEven, aggBRL, shortfallBRL) {
+    const c1 = document.getElementById('priceChart');
+    const c2 = document.getElementById('historyChart');
+    const c3 = document.getElementById('allocationChart');
+    
+    if(c1) this.resizeCanvas(c1);
+    if(c2) this.resizeCanvas(c2);
+    if(c3) this.resizeCanvas(c3);
+
+    this.priceStreaming(c1);
+    this.historyRates(c2, breakEven);
+    this.allocationBars(c3, aggBRL, shortfallBRL);
+  },
+
+  priceStreaming(canvas){
+    if(!canvas) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     const prices = State.quotes.map(q => q.price); if(prices.length < 2) return;
     
@@ -750,8 +766,8 @@ const Charts = {
     ctx.stroke();
   },
 
-  historyRates(breakEven) {
-    const canvas = document.getElementById('historyChart'); if(!canvas) return;
+  historyRates(canvas, breakEven) {
+    if(!canvas) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     if(database.length === 0) return;
 
@@ -762,11 +778,9 @@ const Charts = {
     const pLeft = 35, pBottom = 15;
     const gW = canvas.width - pLeft - 5, gH = canvas.height - pBottom - 5;
 
-    // Linha de Eixo
     ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)';
     ctx.beginPath(); ctx.moveTo(pLeft, 5); ctx.lineTo(pLeft, canvas.height - pBottom); ctx.lineTo(canvas.width - 5, canvas.height - pBottom); ctx.stroke();
 
-    // Barras de Ordens Realizadas
     database.forEach((item, i) => {
       const x = pLeft + (i / (database.length)) * gW + (gW / (database.length * 4));
       const y = canvas.height - pBottom - ((item.rate - min) / (max - min)) * gH;
@@ -774,7 +788,6 @@ const Charts = {
       ctx.fillRect(x, y, Math.max(8, gW / (database.length * 2)), canvas.height - pBottom - y);
     });
 
-    // Linha do Breakeven Médio Cruzando
     if(breakEven > 0) {
       const beY = canvas.height - pBottom - ((breakEven - min) / (max - min)) * gH;
       ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 2;
@@ -782,29 +795,36 @@ const Charts = {
     }
   },
 
-  allocationPie(aggBRL, shortfallBRL) {
-    const canvas = document.getElementById('allocationChart'); if(!canvas) return;
+  // NOVO MODELO RETANGULAR DA ALOCAÇÃO (MUITO MAIS PROPORCIONAL)
+  allocationBars(canvas, aggBRL, shortfallBRL) {
+    if(!canvas) return;
     const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     const total = aggBRL + shortfallBRL; if(total === 0) return;
     const pctLiquidated = aggBRL / total;
-    
-    const cX = canvas.width / 2; const cY = canvas.height / 2;
-    const radius = Math.min(cX, cY) - 10;
 
-    // Fatia 1: Comprado / Liquidado
-    ctx.beginPath(); ctx.moveTo(cX, cY);
-    ctx.arc(cX, cY, radius, -Math.PI/2, (-Math.PI/2) + (Math.PI * 2 * pctLiquidated));
-    ctx.fillStyle = '#22c55e'; ctx.fill();
+    const barHeight = 35;
+    const yPos = (canvas.height / 2) - (barHeight / 2);
+    const startX = 20;
+    const availableWidth = canvas.width - 40;
 
-    // Fatia 2: Restante Exposto
-    ctx.beginPath(); ctx.moveTo(cX, cY);
-    ctx.arc(cX, cY, radius, (-Math.PI/2) + (Math.PI * 2 * pctLiquidated), (-Math.PI/2) + (Math.PI * 2));
-    ctx.fillStyle = '#f59e0b'; ctx.fill();
+    // Fundo da barra
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.fillRect(startX, yPos, availableWidth, barHeight);
 
-    // Centro do Donut Fino (Design Cyberpunk)
-    ctx.beginPath(); ctx.arc(cX, cY, radius * 0.6, 0, Math.PI * 2);
-    ctx.fillStyle = '#020612'; ctx.fill();
+    // Fatia Liquida (Verde)
+    const wGreen = availableWidth * pctLiquidated;
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(startX, yPos, wGreen, barHeight);
+
+    // Fatia Exposta (Laranja)
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(startX + wGreen, yPos, availableWidth - wGreen, barHeight);
+
+    // Detalhe de texto interno
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '10px monospace';
+    ctx.fillText(`${(pctLiquidated * 100).toFixed(1)}% LIQUIDADO`, startX + 5, yPos + 22);
   }
 };
 
@@ -816,10 +836,11 @@ const App = {
       this.renderTechnicalKPIs();
       this.calculateMetrics();
     });
+    window.addEventListener('resize', () => this.calculateMetrics());
   },
 
   runCountdown() {
-    const target = new Date(`October 5, ${new Date().getFullYear()} 14:00:00`).getTime();
+    const target = new Date(`October 5, 2026 14:30:00`).getTime();
     setInterval(() => {
       const diff = target - Date.now();
       if(diff < 0) return;
@@ -846,7 +867,7 @@ const App = {
     document.getElementById('rsi').innerText = ind.rsi.toFixed(0);
     document.getElementById('volatility').innerText = `${ind.volatilityPct.toFixed(2)}%`;
     
-    document.getElementById('marketNarrative').innerText = `Mercado em viés de ${ind.trend}. RSI Estocástico em ${ind.rsi.toFixed(0)} pts. Cluster multi-gráfico sincronizado.`;
+    document.getElementById('marketNarrative').innerText = `Mercado em viés de ${ind.trend}. RSI Estocástico em ${ind.rsi.toFixed(0)} pts. Terminal multi-gráfico recalibrado para proporção 16:9.`;
 
     const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
     const heroCard = document.getElementById('heroPriceCard');
@@ -917,7 +938,7 @@ const App = {
 
     const algoSignal = document.getElementById('algo-signal');
     if(remainderEuro <= 0) {
-      algoSignal.innerHTML = `🎉 <strong style="color:var(--neon-green)">POSIÇÃO COMPLETA:</strong> Meta 100% batida!`;
+      algoSignal.innerHTML = `🎉 <strong style="color:var(--neon-green)">POSIÇÃO COMPLETA:</strong> Meta 100% batida! PNR S8W6I pronto para decolagem.`;
     } else if(currentRate < targetRate) {
       algoSignal.innerHTML = `🟢 <strong style="color:var(--neon-green)">OPORTUNIDADE TÁTICA:</strong> Cotação abaixo do preço alvo desejado.`;
     } else {
@@ -926,7 +947,7 @@ const App = {
 
     this.refreshTranches(remainderEuro);
     
-    // Dispara a renderização do cluster de gráficos do painel estatístico
+    // Dispara a renderização dos gráficos com as proporções idênticas
     Charts.renderAll(breakEven, aggBRL, shortfallBrl);
   },
 
