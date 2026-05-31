@@ -1,1036 +1,1317 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Euro Intelligence Terminal X - Multi-Chart Suite V7.6</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght=400;500;700&family=Urbanist:wght=600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<!-- Identificação de Autoria e Direitos Autorais -->
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euro Intelligence Terminal X - Multi-Chart Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Urbanist:wght@600;700;900&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Identificação de Autoria e Direitos Autorais -->
     <meta name="author" content="Marcelo Amaral">
     <meta name="copyright" content="© 2026 AmaralMA. Todos os direitos reservados.">
     <meta name="designer" content="IA Ring">
     <meta name="owner" content="Marcelo Amaral">
-<!-- Metadados de Negócio e Contato -->
+    <!-- Metadados de Negócio e Contato -->
+    <meta name="description" content="Euro Intelligence Terminal X - Plataforma avançada de múltiplos gráficos para análise financeira V7.8.">
+    <meta name="application-name" content="Euro Intelligence Terminal X">
+    <meta name="application-version" content="7.8">
     <meta name="reply-to" content="amaralma@gmail.com">
     <link rel="author" href="https://amaral.ma">
-<style>
-/* =========================================================
-   EURO INTELLIGENCE TERMINAL X - SPECIFICATION V7.6
-   ========================================================= */
-:root{
-  --bg:#050b14;
-  --bg2:#0c1527;
-  --card:#10192d;
-  --border:#1e355e;
-  --border-focus:#3b82f6;
-  --text:#f8fafc;
-  --muted:#64748b;
-  --green:#22c55e;
-  --neon-green:#00ff66;
-  --neon-accent:#deff9a;
-  --red:#ef4444;
-  --yellow:#f59e0b;
-  --blue:#3b82f6;
-  --purple:#8b5cf6;
-  --cyan:#06b6d4;
-}
-
-*{ margin:0; padding:0; box-sizing:border-box; }
-
-body{
-  background:
-    radial-gradient(circle at top left,#122547 0%,transparent 35%),
-    radial-gradient(circle at 50% 50%,#091326 0%,transparent 50%),
-    linear-gradient(180deg,#050b14,#0c1527);
-  color:var(--text);
-  font-family: 'JetBrains+Mono', monospace;
-  min-height:100vh;
-  padding: 20px;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 15px;
-  margin-bottom: 20px;
-}
-
-.brand h1 {
-  font-family: 'Urbanist', sans-serif;
-  font-weight: 900;
-  font-size: 26px;
-  letter-spacing: -0.5px;
-}
-
-.brand h1 span { color: var(--neon-accent); }
-
-.controls-bar {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:var(--bg2);
-  padding:6px 12px;
-  border-radius:8px;
-  border:1px solid var(--border);
-}
-.refresh-input-wrapper {
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-.refresh-input-wrapper label { margin:0; font-size:11px; font-weight:700; white-space:nowrap; text-transform: none; }
-.input-refresh {
-  width:55px; background:#020612; border:1px solid var(--border);
-  color:var(--text); padding:4px 6px; border-radius:4px; font-size:12px;
-  text-align:center; font-weight:700; font-family:monospace;
-}
-.btn-toggle-refresh {
-  background:var(--blue); color:#ffffff; font-size:11px; padding:5px 10px;
-  border-radius:4px; font-weight:700; cursor:pointer; border:none; transition:0.2s;
-  width: auto; text-transform: uppercase;
-}
-.btn-toggle-refresh.paused { background:var(--yellow); color:#000000; }
-
-.audio-switch {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #111d35;
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  font-size: 11px;
-  cursor: pointer;
-}
-.audio-switch.active {
-  border-color: var(--neon-green);
-  color: var(--neon-green);
-}
-
-.connection{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:rgba(34,197,94,.08);
-  border:1px solid rgba(34,197,94,.2);
-  padding:4px 10px;
-  border-radius:4px;
-  font-family:monospace;
-  font-size:11px;
-  color: var(--neon-green);
-}
-.pulse{
-  width:8px; height:8px; border-radius:50%;
-  background:var(--neon-green);
-  animation:pulse 1.5s infinite;
-}
-@keyframes pulse{
-  0%{ opacity:.3; transform:scale(0.9); }
-  50%{ opacity:1; transform:scale(1.1); }
-  100%{ opacity:.3; transform:scale(0.9); }
-}
-
-.layout-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 15px;
-}
-
-.span-3 { grid-column: span 3; }
-.span-4 { grid-column: span 4; }
-.span-5 { grid-column: span 5; }
-.span-6 { grid-column: span 6; }
-.span-7 { grid-column: span 7; }
-.span-8 { grid-column: span 8; }
-.span-12 { grid-column: span 12; }
-
-.card{
-  background-color: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  position: relative;
-}
-.card:hover { border-color: var(--blue); }
-
-.card-title {
-  font-size: 11px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.hero{ text-align:center; padding:24px; position: relative; }
-.hero-label{ color:var(--muted); font-size:12px; text-transform: uppercase; }
-.hero-price{ font-size:52px; font-weight:900; letter-spacing:-1px; margin:10px 0; font-family: 'Urbanist', sans-serif; transition: text-shadow 0.3s; }
-.hero.radar-alert { animation: radarGlow 1s infinite alternate; }
-@keyframes radarGlow {
-  from { background-color: var(--bg2); box-shadow: inset 0 0 10px rgba(239, 68, 68, 0); }
-  to { background-color: rgba(239, 68, 68, 0.1); box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.3); border-color: var(--red); }
-}
-
-.market-narrative{ max-width:900px; margin:auto; color:var(--muted); line-height:1.6; font-size:12px; }
-
-.kpi{ background:#020612; border:1px solid var(--border); border-radius:6px; padding:12px; text-align: center; }
-.kpi-label{ color:var(--muted); font-size:10px; margin-bottom:6px; text-transform: uppercase; }
-.kpi-value{ font-size:22px; font-weight:700; }
-
-.good{ color:var(--neon-green); }
-.bad{ color:var(--red); }
-.warn{ color:var(--yellow); }
-.info{ color:var(--cyan); }
-
-label{ display:block; margin-bottom:4px; font-size:10px; color:var(--muted); text-transform: uppercase; }
-input, select{
-  width:100%; background:var(--bg); border:1px solid var(--border);
-  color:var(--text); padding:10px; border-radius:4px; font-size:12px;
-  transition:border-color 0.2s; outline:none; font-family: 'JetBrains+Mono', monospace;
-}
-input:focus, select:focus{ border-color:var(--blue); }
-
-button{
-  border:none; background:var(--neon-accent); color:#020612; padding:10px 14px;
-  border-radius:4px; font-weight:700; cursor:pointer; transition:.2s; font-family: 'Urbanist', sans-serif;
-  text-transform: uppercase; font-size: 12px; width: 100%;
-}
-button:hover{ transform:translateY(-1px); box-shadow: 0 0 12px rgba(222, 255, 154, 0.3); }
-
-.action-btn {
-  background: none; border: none; padding: 0; cursor: pointer; font-size: 12px; width: auto; display: inline-block; margin-right: 8px;
-}
-.trash-btn { color: var(--red); }
-.edit-btn { color: var(--blue); }
-
-.table-container { overflow-x: auto; max-height: 250px; }
-table{ width:100%; border-collapse:collapse; text-align: left; }
-th,td{ padding:10px; border-bottom:1px solid rgba(255,255,255,0.03); font-size:12px; }
-th{ color:var(--neon-accent); font-size:11px; text-transform: uppercase; border-bottom: 2px solid var(--border); }
-
-.alert{ background:rgba(59,130,246,.05); border:1px dashed var(--blue); padding:14px; border-radius:6px; line-height:1.6; font-size:12px; }
-.alert-stream{ height:120px; overflow-y:auto; background:#020612; border:1px solid var(--border); border-radius:6px; padding:12px; font-family: 'JetBrains+Mono', monospace; font-size:11px; }
-.stream-line{ margin-bottom:4px; color:#b8c7e4; line-height: 1.3; }
-.stream-line strong{ color:var(--cyan); }
-
-.timeline{ display:flex; flex-direction:column; gap:10px; }
-.timeline-item{ background:#020612; border:1px solid var(--border); border-left: 3px solid var(--border); padding:12px; border-radius:4px; }
-.timeline-title{ font-weight:700; margin-bottom:4px; font-size:12px; }
-.timeline-text{ color:var(--muted); line-height:1.4; font-size:11px; }
-
-.recommendation{ padding:16px; border-radius:6px; margin-top:12px; }
-.buy{ background:rgba(34,197,94,.1); border:1px solid var(--green); }
-.wait{ background:rgba(245,158,11,.1); border:1px solid var(--yellow); }
-.danger{ background:rgba(239,68,68,.1); border:1px solid var(--red); }
-.recommendation-title{ font-size:20px; font-weight:900; margin-bottom:6px; font-family: 'Urbanist', sans-serif; }
-
-.canvas-container { position: relative; background: #020612; border-radius: 6px; border: 1px solid var(--border); padding: 8px; width: 100%; height: 150px; }
-canvas{ width:100%; height: 100%; display:block; }
-
-.flight-row { display: flex; justify-content: space-between; align-items: center; background: #020612; border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 11px; }
-.flight-badge { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; background: var(--border); color: var(--text); }
-
-.progress-wrapper { background: var(--bg); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--neon-accent)); width: 0%; transition: width 0.5s ease; }
-
-.countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; margin-top: 5px; }
-.countdown-box { background-color: var(--bg); padding: 4px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
-.countdown-num { font-size: 16px; font-weight: bold; color: var(--neon-accent); }
-.countdown-lbl { font-size: 8px; color: var(--muted); text-transform: uppercase; }
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="brand">
-    <h1>EURO INTELLIGENCE <span>TERMINAL X</span> <small style="font-size:11px; color:var(--muted)">ANALYTICS SUITE V7.6</small></h1>
-  </div>
-
-  <div class="controls-bar">
-    <div id="audioAlertToggle" class="audio-switch active" onclick="AudioRadar.toggle()">
-      <i class="fa-solid fa-volume-high"></i> <span>SONAR ALVO: LIGADO</span>
-    </div>
-
-    <div class="refresh-input-wrapper">
-      <label for="refreshIntervalInput">⏱️ Tempo:</label>
-      <input type="number" id="refreshIntervalInput" class="input-refresh" value="15" min="2" max="3600" onchange="Realtime.handleIntervalChange()">
-    </div>
-    <button id="toggleRefreshBtn" class="btn-toggle-refresh" onclick="Realtime.toggleStatus()">PAUSAR</button>
-    
-    <div class="connection">
-      <div class="pulse" id="connectionPulse"></div>
-      <div id="connectionStatus">ONLINE · 0ms</div>
-    </div>
-  </div>
-</header>
-
-<section class="card span-12" style="background: linear-gradient(90deg, rgba(16, 25, 45, 0.8), rgba(11, 22, 41, 0.9)); border-left: 4px solid var(--neon-accent); margin-bottom: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
-  <div style="font-size: 14px; font-weight: 500;" id="algo-signal">
-    <i class="fa-solid fa-sync fa-spin"></i> Inicializando telemetria de gráficos múltiplos estruturados...
-  </div>
-  <div style="font-size: 11px; color: var(--muted)">BOOKING CODE REFERENCE: <strong style="color:var(--cyan)">S8W6I</strong></div>
-</section>
-
-<div class="layout-grid">
-
-  <section class="card span-12 hero" id="heroPriceCard">
-    <div class="hero-label">EUR / BRL Real-Time Feed · Live Commercial Price</div>
-    <div class="hero-price good" id="mainPrice">R$ 0,0000</div>
-    <div class="market-narrative" id="marketNarrative">Conectando malha de pacotes de dados cambiais...</div>
-  </section>
-
-  <div class="card span-12" style="padding: 0; border: none; background: transparent;">
-    <div class="layout-grid">
-      <div class="kpi span-3">
-        <div class="kpi-label">Score de Oportunidade</div>
-        <div class="kpi-value good" id="score">0/100</div>
-      </div>
-      <div class="kpi span-3">
-        <div class="kpi-label">Tendência de Mercado</div>
-        <div class="kpi-value info" id="trend">-</div>
-      </div>
-      <div class="kpi span-3">
-        <div class="kpi-label">RSI Estocástico (14D)</div>
-        <div class="kpi-value info" id="rsi">0</div>
-      </div>
-      <div class="kpi span-3">
-        <div class="kpi-label">Volatilidade Corrente</div>
-        <div class="kpi-value warn" id="volatility">0.00%</div>
-      </div>
-    </div>
-  </div>
-
-  <section class="card span-5">
-    <div class="card-title">
-      <span>Painel de Parametrização & Bolso</span>
-      <i class="fa-solid fa-sliders" style="color: var(--neon-accent)"></i>
-    </div>
-    <div style="margin-bottom: 12px;">
-      <label>Perfil da Viagem (24 Dias Solo)</label>
-      <select id="travelProfile" onchange="App.handleProfileChange()">
-        <option value="115">Mochileiro Smart (€ 115 / dia)</option>
-        <option value="170" selected>Conforto Recomendado (€ 170 / dia)</option>
-        <option value="235">Premium Executivo (€ 235 / dia)</option>
-      </select>
-    </div>
-    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-      <div>
-        <label>Volume Alocado (€)</label>
-        <input type="number" id="euroAmount" value="4080" oninput="Storage.saveUserPreferences(); App.calculateMetrics();">
-      </div>
-      <div>
-        <label>Preço Alvo Desejado (R$)</label>
-        <input type="number" id="targetPrice" value="6.10" step="0.01" oninput="App.calculateMetrics()">
-      </div>
-    </div>
-    <div style="margin-bottom: 12px;">
-      <label>Estratégia de Aquisição</label>
-      <select id="strategy" onchange="Storage.saveUserPreferences(); App.calculateMetrics();">
-        <option value="dca">Dollar Cost Averaging (Fracionado)</option>
-        <option value="aggressive">Tranches de Proteção Estocástica</option>
-        <option value="compulsive">Liquidação Compulsória Pré-Embarque</option>
-      </select>
-    </div>
-    <button style="margin-top:5px;" onclick="App.generateRecommendation()">Gerar Estratégia Inteligente</button>
-    <div id="recommendationContainer"></div>
-
-    <div style="margin-top: 15px; border-top: 1px dashed var(--border); padding-top: 12px;">
-      <label>Contagem Regressiva Para Embarque (05/Out)</label>
-      <div class="countdown-grid">
-        <div class="countdown-box"><div class="countdown-num" id="cd-d">00</div><div class="countdown-lbl">Dias</div></div>
-        <div class="countdown-box"><div class="countdown-num" id="cd-h">00</div><div class="countdown-lbl">Horas</div></div>
-        <div class="countdown-box"><div class="countdown-num" id="cd-m">00</div><div class="countdown-lbl">Min</div></div>
-        <div class="countdown-box"><div class="countdown-num" id="cd-s">00</div><div class="countdown-lbl">Seg</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="card span-7">
-    <div class="card-title">
-      <span>Matriz de Custódia & Progresso Estratégico</span>
-      <span id="progress-percentage" style="color: var(--cyan); font-weight: bold;">0.0%</span>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px;">
-      <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
-        <label>Meta de Viagem Configurada</label>
-        <div id="matrixTargetTotal" style="font-size: 20px; font-weight: 700; color: var(--text-main);">€ 4.080,00</div>
-      </div>
-      <div style="background: rgba(34, 197, 94, 0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--green);">
-        <label>Custódia Comprada Real</label>
-        <div id="matrixCurrentTotal" style="font-size: 20px; font-weight: 700; color: var(--neon-green);">€ 0,00</div>
-      </div>
-      <div style="background: rgba(239, 68, 68, 0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--red);">
-        <label>Saldo Líquido Remanescente</label>
-        <div id="matrixRemainderEuro" style="font-size: 20px; font-weight: 700; color: var(--red);">€ 4.080,00</div>
-      </div>
-      <div style="background: rgba(245, 158, 11, 0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--yellow);">
-        <label>Custo de Liquidação (API Viva)</label>
-        <div id="matrixCurrentTotalBrl" style="font-size: 20px; font-weight: 700; color: var(--yellow);">R$ 0,00</div>
-      </div>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border-top: 1px dashed var(--border); padding-top: 12px; margin-bottom: 10px;">
-      <div>
-        <label>Custo Planejado (Alvo)</label>
-        <div id="matrixTargetTotalBrl" style="font-weight: 700; font-size: 13px;">R$ 0,00</div>
-      </div>
-      <div>
-        <label>Risco Cambial (Delta)</label>
-        <div id="matrixBrlDelta" style="font-weight: 700; font-size: 13px;">R$ 0,00</div>
-      </div>
-      <div style="text-align: right;">
-        <label>Status do Saldo</label>
-        <span id="remainder-status-badge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; display: inline-block; margin-top: 2px;">-</span>
-      </div>
-    </div>
-
-    <div class="progress-wrapper">
-      <div class="progress-fill" id="progressBarFill"></div>
-    </div>
-
-    <div class="card-title" style="font-size:10px; margin-top:18px; margin-bottom: 8px;">Planejamento Tático de Tranches</div>
-    <div class="timeline" id="strategyPlan"></div>
-  </section>
-
-  <section class="card span-12" style="background: #091121; border-color: var(--cyan);">
-    <div class="card-title" style="color: var(--cyan); font-weight: bold;">
-      <span><i class="fa-solid fa-chart-pie"></i> Multi-Chart Analytics System (Estatísticas Simétricas)</span>
-      <span>CLUSTER ATIVO</span>
-    </div>
-    
-    <div class="layout-grid">
-      <div class="span-4">
-        <label style="margin-bottom: 6px; color: var(--text);">1. Streaming Real vs Alvo</label>
-        <div class="canvas-container">
-          <canvas id="priceChart"></canvas>
-        </div>
-        <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
-          <span style="color:#00ff66">■</span> API Euro <span style="color:#ef4444">■</span> Preço Alvo
-        </div>
-      </div>
-
-      <div class="span-4">
-        <label style="margin-bottom: 6px; color: var(--text);">2. Distribuição Histórica de Taxas</label>
-        <div class="canvas-container">
-          <canvas id="historyChart"></canvas>
-        </div>
-        <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
-          <span style="color:#3b82f6">■</span> Taxa Fixada <span style="color:#8b5cf6">▬</span> Seu Breakeven Médio
-        </div>
-      </div>
-
-      <div class="span-4">
-        <label style="margin-bottom: 6px; color: var(--text);">3. Alocação Física de Capital (R$)</label>
-        <div class="canvas-container">
-          <canvas id="allocationChart"></canvas>
-        </div>
-        <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
-          <span style="color:#22c55e">■</span> Liquidado <span style="color:#f59e0b">■</span> Exposto à API
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="card span-12">
-    <div class="card-title"><span>Quantum Flight Logistics Monitor (Iberia Database)</span><i class="fa-solid fa-plane-departure" style="color:var(--cyan)"></i></div>
-    <div class="layout-grid">
-      <div class="span-6">
-        <div class="flight-row">
-          <div>🛫 OUTBOUND: <strong>IB6824 · Iberia Fleet</strong></div>
-          <div class="flight-badge" style="color: var(--neon-green); border-color: var(--green);">05/OUT · 14:30</div>
-        </div>
-        <div class="flight-row">
-          <div>📍 ROUTE: <strong>GRU (Guarulhos) ➔ MAD (Madrid Barajas)</strong></div>
-          <div style="color: var(--muted); font-size: 10px;">ARRIVES 05:55 (+1) · SEAT 32A</div>
-        </div>
-      </div>
-      <div class="span-6">
-        <div class="flight-row">
-          <div>🛬 INBOUND: <strong>IB6827 · Iberia Fleet</strong></div>
-          <div class="flight-badge" style="color: var(--cyan); border-color: var(--blue);">29/OUT · 23:55</div>
-        </div>
-        <div class="flight-row">
-          <div>📍 ROUTE: <strong>MAD (Madrid Barajas) ➔ GRU (Guarulhos)</strong></div>
-          <div style="color: var(--muted); font-size: 10px;">ARRIVES 06:45 (+1) · SEAT 31A</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="card span-4">
-    <div class="card-title"><span id="boleta-mode-title">Registrar Nova Ordem (Boleta)</span></div>
-    <form id="boleta-form" onsubmit="App.executeOrder(event)">
-      <input type="hidden" id="edit-order-id" value="">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-        <div>
-          <label>Aporte (BRL)</label>
-          <input type="number" step="0.01" id="order-brl" required placeholder="Ex: 2500.00">
-        </div>
-        <div>
-          <label>Taxa Pura</label>
-          <input type="number" step="0.0001" id="order-rate" required placeholder="Ex: 5.94">
-        </div>
-      </div>
-      <div style="display:flex; gap: 8px;">
-        <button type="submit" id="submit-boleta-btn">Enviar Ordem</button>
-        <button type="button" id="cancel-edit-btn" style="background: var(--muted); display: none;" onclick="App.cancelEdit()">Cancelar</button>
-      </div>
-    </form>
-  </section>
-
-  <section class="card span-8">
-    <div class="card-title"><span>Livro de Ordens Liquidadas (Ledger Histórico)</span><span style="font-size: 10px; text-transform:none;">Breakeven Médio: R$ <strong id="portfolio-breakeven" style="color:var(--blue)">0.0000</strong></span></div>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Aporte (BRL)</th>
-            <th>Taxa Fixada</th>
-            <th>Líquido (EUR)</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody id="ledger-entries"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="card span-12">
-    <div class="card-title"><span>Console do Terminal Executivo X (System Logs)</span><i class="fa-solid fa-terminal"></i></div>
-    <div class="alert-stream" id="terminalStream"></div>
-  </section>
-
-</div>
-
-<footer style="margin-top: 30px; text-align: center; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 15px;">
-  Quantum Analytics Architecture V7.6 · PNR S8W6I Sync Lock · Core Systems Protected
-</footer>
-
-<script>
-// Base de dados estável com os registros reais coletados da sua planilha
-let database = [
-  { id: 1, date: '2026-03-04', brl: 1000.00, rate: 6.3383 },
-  { id: 2, date: '2026-02-06', brl: 2197.49, rate: 6.3838 },
-  { id: 3, date: '2026-04-08', brl: 3006.95, rate: 6.0139 },
-  { id: 4, date: '2026-04-09', brl: 325.93,  rate: 6.0469 },
-  { id: 5, date: '2026-05-19', brl: 1000.00, rate: 1.1610 },
-  { id: 6, date: '2026-05-19', brl: 40.65,   rate: 5.8743 }
-];
-
-const State = {
-  quotes: [],
-  current: null,
-  latency: 0,
-  online: true,
-  stream: [],
-  isPaused: false,
-  audioAlertEnabled: true,
-  cacheKey: 'terminal_x_v76_cache'
-};
-
-const Events = (()=>{
-  const events = {};
-  return {
-    on(event, handler){ if(!events[event]) events[event] = []; events[event].push(handler); },
-    emit(event, data){ if(events[event]) events[event].forEach(fn => fn(data)); }
-  };
-})();
-
-const AudioRadar = {
-  ctx: null,
-  lastTrigger: 0,
-  toggle() {
-    State.audioAlertEnabled = !State.audioAlertEnabled;
-    const el = document.getElementById('audioAlertToggle');
-    if(State.audioAlertEnabled) {
-      el.classList.add('active');
-      el.innerHTML = `<i class="fa-solid fa-volume-high"></i> <span>SONAR ALVO: LIGADO</span>`;
-      Terminal.log("Radar sonoro de proximidade do preço reativado.");
-    } else {
-      el.classList.remove('active');
-      el.innerHTML = `<i class="fa-solid fa-volume-xmark"></i> <span>SONAR ALVO: DESLIGADO</span>`;
-      Terminal.log("Radar sonoro mutado pelo operador.");
-    }
-    Storage.saveUserPreferences();
-  },
-  triggerBeep() {
-    if(!State.audioAlertEnabled) return;
-    const now = Date.now();
-    if(now - this.lastTrigger < 8000) return;
-    this.lastTrigger = now;
-    try {
-      if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, this.ctx.currentTime);
-      gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.4);
-    } catch(e) { console.error("Audio block active."); }
-  }
-};
-
-const Storage = {
-  saveQuotes(){ localStorage.setItem(State.cacheKey + '_quotes', JSON.stringify({ quotes: State.quotes })); },
-  saveUserPreferences(){
-    const preferences = {
-      targetPrice: document.getElementById('targetPrice').value,
-      euroAmount: document.getElementById('euroAmount').value,
-      travelProfile: document.getElementById('travelProfile').value,
-      refreshInterval: document.getElementById('refreshIntervalInput').value,
-      audioAlertEnabled: State.audioAlertEnabled,
-      isPaused: State.isPaused
-    };
-    localStorage.setItem(State.cacheKey + '_config', JSON.stringify(preferences));
-  },
-  loadAll(){
-    const cacheQuotes = localStorage.getItem(State.cacheKey + '_quotes');
-    if(cacheQuotes) {
-      try {
-        const parsed = JSON.parse(cacheQuotes); State.quotes = parsed.quotes || [];
-        if(State.quotes.length > 0) State.current = State.quotes[State.quotes.length - 1];
-      } catch(err) {}
-    }
-    const cacheConfig = localStorage.getItem(State.cacheKey + '_config');
-    if(cacheConfig) {
-      try {
-        const cfg = JSON.parse(cacheConfig);
-        if(cfg.targetPrice) document.getElementById('targetPrice').value = cfg.targetPrice;
-        if(cfg.euroAmount) document.getElementById('euroAmount').value = cfg.euroAmount;
-        if(cfg.travelProfile) document.getElementById('travelProfile').value = cfg.travelProfile;
-        if(cfg.refreshInterval) document.getElementById('refreshIntervalInput').value = cfg.refreshInterval;
-        if(cfg.isPaused !== undefined) State.isPaused = cfg.isPaused;
-      } catch(err) {}
-    }
-  }
-};
-
-const Terminal = {
-  log(message){
-    const time = new Date().toLocaleTimeString('pt-BR');
-    State.stream.unshift(`[${time}] ${message}`);
-    State.stream = State.stream.slice(0, 40);
-    const streamContainer = document.getElementById('terminalStream');
-    if(streamContainer) {
-      streamContainer.innerHTML = State.stream.map(line => `<div class="stream-line"><strong>></strong> ${line}</div>`).join('');
-    }
-  }
-};
-
-const API = {
-  url: 'https://economia.awesomeapi.com.br/json/daily/EUR-BRL/30',
-  async request(){
-    const start = performance.now();
-    const response = await fetch(this.url);
-    State.latency = Math.round(performance.now() - start);
-    return response.json();
-  }
-};
-
-const Analysis = {
-  indicators(){
-    const prices = State.quotes.map(q => q.price);
-    if(prices.length < 2) return null;
-    const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
-    const last = prices[prices.length - 1];
-    const variance = prices.reduce((s, p) => s + Math.pow(p - avg, 2), 0) / prices.length;
-    const volatilityPct = (Math.sqrt(variance) / avg) * 100;
-    const momentum = last - prices[0];
-
-    let trend = 'Lateral';
-    if(momentum > 0.05) trend = 'Alta';
-    else if(momentum < -0.05) trend = 'Baixa';
-
-    let gains = 0, losses = 0;
-    for(let i = 1; i < prices.length; i++){
-      const diff = prices[i] - prices[i - 1];
-      if(diff > 0) gains += diff; else losses += Math.abs(diff);
-    }
-    const rsi = 100 - (100 / (1 + (gains / (losses || 1))));
-
-    let score = 50;
-    if(trend === 'Baixa') score += 15;
-    if(rsi < 45) score += 20;
-    if(last < avg) score += 15;
-    score = Math.max(0, Math.min(100, score));
-
-    return { avg, last, rsi, trend, score, volatilityPct };
-  }
-};
-
-const Realtime = {
-  loopId: null,
-  async sync(){
-    if(State.isPaused) return;
-    try {
-      const data = await API.request();
-      State.quotes = data.reverse().map(item => ({
-        price: parseFloat(item.bid),
-        timestamp: Number(item.timestamp)
-      }));
-      State.current = State.quotes[State.quotes.length - 1];
-      Storage.saveQuotes();
-      Events.emit('market:update');
-      Terminal.log(`Preço sincronizado com AwesomeAPI: R$ ${State.current.price.toFixed(4)}`);
-    } catch(err) {
-      Terminal.log('Instabilidade de conexão com servidor cambial.');
-    }
-  },
-  handleIntervalChange() { this.restartLoop(); },
-  toggleStatus(){
-    State.isPaused = !State.isPaused;
-    Storage.saveUserPreferences();
-    const btn = document.getElementById('toggleRefreshBtn');
-    if(State.isPaused) {
-      btn.innerText = "RETOMAR"; btn.classList.add('paused');
-    } else {
-      btn.innerText = "PAUSAR"; btn.classList.remove('paused');
-      this.sync(); this.restartLoop();
-    }
-  },
-  restartLoop(){
-    clearInterval(this.loopId);
-    if(State.isPaused) return;
-    const sec = parseInt(document.getElementById('refreshIntervalInput').value, 10) || 15;
-    this.loopId = setInterval(() => this.sync(), sec * 1000);
-  },
-  start(){
-    Storage.loadAll(); this.sync();
-    const sec = parseInt(document.getElementById('refreshIntervalInput').value, 10) || 15;
-    this.loopId = setInterval(() => this.sync(), sec * 1000);
-  }
-};
-
-// MULTI-CHART MATRIX ENGINE (V7.6 CORREÇÃO DE SIMETRIA)
-const Charts = {
-  resizeCanvas(canvas) {
-    const rect = canvas.parentNode.getBoundingClientRect();
-    canvas.width = rect.width - 16;
-    canvas.height = 134;
-  },
-
-  renderAll(breakEven, aggBRL, shortfallBRL) {
-    const c1 = document.getElementById('priceChart');
-    const c2 = document.getElementById('historyChart');
-    const c3 = document.getElementById('allocationChart');
-    
-    if(c1) this.resizeCanvas(c1);
-    if(c2) this.resizeCanvas(c2);
-    if(c3) this.resizeCanvas(c3);
-
-    this.priceStreaming(c1);
-    this.historyRates(c2, breakEven);
-    this.allocationBars(c3, aggBRL, shortfallBRL);
-  },
-
-  priceStreaming(canvas){
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const prices = State.quotes.map(q => q.price); if(prices.length < 2) return;
-    
-    const max = Math.max(...prices, parseFloat(document.getElementById('targetPrice').value || 0)) * 1.01;
-    const min = Math.min(...prices, parseFloat(document.getElementById('targetPrice').value || 9)) * 0.99;
-    
-    const pLeft = 35, pBottom = 15;
-    const gW = canvas.width - pLeft - 5, gH = canvas.height - pBottom - 5;
-
-    ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)';
-    ctx.beginPath(); ctx.moveTo(pLeft, 5); ctx.lineTo(pLeft, canvas.height - pBottom); ctx.lineTo(canvas.width - 5, canvas.height - pBottom); ctx.stroke();
-
-    const targetPriceVal = parseFloat(document.getElementById('targetPrice').value) || 6.10;
-    const targetY = canvas.height - pBottom - ((targetPriceVal - min) / (max - min)) * gH;
-    ctx.strokeStyle = 'rgba(239, 68, 68, 0.5)'; ctx.setLineDash([3, 3]);
-    ctx.beginPath(); ctx.moveTo(pLeft, targetY); ctx.lineTo(canvas.width - 5, targetY); ctx.stroke(); ctx.setLineDash([]);
-
-    ctx.beginPath(); ctx.lineWidth = 1.5; ctx.strokeStyle = '#00ff66';
-    prices.forEach((p, i) => {
-      const x = pLeft + (i / (prices.length - 1)) * gW;
-      const y = canvas.height - pBottom - ((p - min) / (max - min)) * gH;
-      if(i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-  },
-
-  historyRates(canvas, breakEven) {
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if(database.length === 0) return;
-
-    const rates = database.map(d => d.rate);
-    const max = Math.max(...rates, breakEven) * 1.02;
-    const min = Math.min(...rates, breakEven) * 0.98;
-
-    const pLeft = 35, pBottom = 15;
-    const gW = canvas.width - pLeft - 5, gH = canvas.height - pBottom - 5;
-
-    ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)';
-    ctx.beginPath(); ctx.moveTo(pLeft, 5); ctx.lineTo(pLeft, canvas.height - pBottom); ctx.lineTo(canvas.width - 5, canvas.height - pBottom); ctx.stroke();
-
-    database.forEach((item, i) => {
-      const x = pLeft + (i / (database.length)) * gW + (gW / (database.length * 4));
-      const y = canvas.height - pBottom - ((item.rate - min) / (max - min)) * gH;
-      ctx.fillStyle = '#3b82f6';
-      ctx.fillRect(x, y, Math.max(8, gW / (database.length * 2)), canvas.height - pBottom - y);
-    });
-
-    if(breakEven > 0) {
-      const beY = canvas.height - pBottom - ((breakEven - min) / (max - min)) * gH;
-      ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(pLeft, beY); ctx.lineTo(canvas.width - 5, beY); ctx.stroke();
-    }
-  },
-
-  // NOVO MODELO RETANGULAR DA ALOCAÇÃO (MUITO MAIS PROPORCIONAL)
-  allocationBars(canvas, aggBRL, shortfallBRL) {
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    const total = aggBRL + shortfallBRL; if(total === 0) return;
-    const pctLiquidated = aggBRL / total;
-
-    const barHeight = 35;
-    const yPos = (canvas.height / 2) - (barHeight / 2);
-    const startX = 20;
-    const availableWidth = canvas.width - 40;
-
-    // Fundo da barra
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-    ctx.fillRect(startX, yPos, availableWidth, barHeight);
-
-    // Fatia Liquida (Verde)
-    const wGreen = availableWidth * pctLiquidated;
-    ctx.fillStyle = '#22c55e';
-    ctx.fillRect(startX, yPos, wGreen, barHeight);
-
-    // Fatia Exposta (Laranja)
-    ctx.fillStyle = '#f59e0b';
-    ctx.fillRect(startX + wGreen, yPos, availableWidth - wGreen, barHeight);
-
-    // Detalhe de texto interno
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '10px monospace';
-    ctx.fillText(`${(pctLiquidated * 100).toFixed(1)}% LIQUIDADO`, startX + 5, yPos + 22);
-  }
-};
-
-const App = {
-  init(){
-    Realtime.start();
-    this.runCountdown();
-    Events.on('market:update', () => {
-      this.renderTechnicalKPIs();
-      this.calculateMetrics();
-    });
-    window.addEventListener('resize', () => this.calculateMetrics());
-  },
-
-  runCountdown() {
-    const target = new Date(`October 5, 2026 14:30:00`).getTime();
-    setInterval(() => {
-      const diff = target - Date.now();
-      if(diff < 0) return;
-      document.getElementById('cd-d').innerText = String(Math.floor(diff / (1000*60*60*24))).padStart(2, '0');
-      document.getElementById('cd-h').innerText = String(Math.floor((diff % (1000*60*60*24)) / (1000*60*60))).padStart(2, '0');
-      document.getElementById('cd-m').innerText = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2, '0');
-      document.getElementById('cd-s').innerText = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2, '0');
-    }, 1000);
-  },
-
-  handleProfileChange() {
-    const dailyCost = Number(document.getElementById('travelProfile').value);
-    document.getElementById('euroAmount').value = dailyCost * 24;
-    Storage.saveUserPreferences();
-    this.calculateMetrics();
-  },
-
-  renderTechnicalKPIs(){
-    const ind = Analysis.indicators(); if(!ind) return;
-
-    document.getElementById('mainPrice').innerText = `R$ ${ind.last.toFixed(4)}`;
-    document.getElementById('score').innerText = `${ind.score}/100`;
-    document.getElementById('trend').innerText = ind.trend;
-    document.getElementById('rsi').innerText = ind.rsi.toFixed(0);
-    document.getElementById('volatility').innerText = `${ind.volatilityPct.toFixed(2)}%`;
-    
-    document.getElementById('marketNarrative').innerText = `Mercado em viés de ${ind.trend}. RSI Estocástico em ${ind.rsi.toFixed(0)} pts. Terminal multi-gráfico recalibrado para proporção 16:9.`;
-
-    const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
-    const heroCard = document.getElementById('heroPriceCard');
-    if(ind.last <= targetRate || Math.abs(ind.last - targetRate) < 0.02) {
-      heroCard.classList.add('radar-alert'); AudioRadar.triggerBeep();
-    } else {
-      heroCard.classList.remove('radar-alert');
-    }
-  },
-
-  calculateMetrics() {
-    let aggBRL = 0; let aggEUR = 0;
-    const targetAmount = parseFloat(document.getElementById('euroAmount').value) || 4080;
-    const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
-    const currentRate = State.current ? State.current.price : 5.95;
-
-    const tbody = document.getElementById('ledger-entries'); tbody.innerHTML = '';
-    
-    database.forEach(item => {
-      const computedEUR = item.brl / item.rate;
-      aggBRL += item.brl;
-      aggEUR += computedEUR;
-
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${item.date}</td>
-        <td>R$ ${item.brl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-        <td>${item.rate.toFixed(4)}</td>
-        <td style="color:var(--neon-accent); font-weight:bold;">${computedEUR.toLocaleString('pt-BR', {minimumFractionDigits: 2})} €</td>
-        <td>
-          <button class="action-btn edit-btn" onclick="App.editOrder(${item.id})"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
-          <button class="action-btn trash-btn" onclick="App.removeOrder(${item.id})"><i class="fa-solid fa-trash"></i></button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    const breakEven = aggEUR > 0 ? (aggBRL / aggEUR) : 0;
-    document.getElementById('portfolio-breakeven').innerText = breakEven.toFixed(4);
-
-    const remainderEuro = Math.max(0, targetAmount - aggEUR);
-    const progressPct = (aggEUR / targetAmount) * 100;
-
-    const plannedCostBrl = remainderEuro * targetRate;
-    const shortfallBrl = remainderEuro * currentRate;
-    const deltaBrl = shortfallBrl - plannedCostBrl;
-
-    document.getElementById('matrixTargetTotal').innerText = `€ ${targetAmount.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    document.getElementById('matrixCurrentTotal').innerText = `€ ${aggEUR.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    document.getElementById('matrixRemainderEuro').innerText = `€ ${remainderEuro.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    document.getElementById('matrixCurrentTotalBrl').innerText = `R$ ${shortfallBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    document.getElementById('matrixTargetTotalBrl').innerText = `R$ ${plannedCostBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    
-    const deltaEl = document.getElementById('matrixBrlDelta');
-    deltaEl.innerText = `${deltaBrl >= 0 ? '+' : ''} R$ ${deltaBrl.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    
-    const badge = document.getElementById('remainder-status-badge');
-    if(remainderEuro <= 0) {
-      badge.innerText = "META ALCANÇADA"; badge.style.backgroundColor = "rgba(34,197,94,0.2)"; badge.style.color = "var(--neon-green)";
-    } else if(deltaBrl <= 0) {
-      badge.innerText = "ZONA ECONÔMICA"; badge.style.backgroundColor = "rgba(34,197,94,0.1)"; badge.style.color = "var(--green)";
-    } else {
-      badge.innerText = "RISCO CAMBIAL"; badge.style.backgroundColor = "rgba(239,68,68,0.1)"; badge.style.color = "var(--red)";
-    }
-
-    document.getElementById('progress-percentage').innerText = `${progressPct.toFixed(1)}%`;
-    document.getElementById('progressBarFill').style.width = `${Math.min(100, progressPct)}%`;
-
-    const algoSignal = document.getElementById('algo-signal');
-    if(remainderEuro <= 0) {
-      algoSignal.innerHTML = `🎉 <strong style="color:var(--neon-green)">POSIÇÃO COMPLETA:</strong> Meta 100% batida! PNR S8W6I pronto para decolagem.`;
-    } else if(currentRate < targetRate) {
-      algoSignal.innerHTML = `🟢 <strong style="color:var(--neon-green)">OPORTUNIDADE TÁTICA:</strong> Cotação abaixo do preço alvo desejado.`;
-    } else {
-      algoSignal.innerHTML = `🔴 <strong>PREÇO EM ZONA DE RISCO:</strong> Acima da meta estipulada.`;
-    }
-
-    this.refreshTranches(remainderEuro);
-    
-    // Dispara a renderização dos gráficos com as proporções idênticas
-    Charts.renderAll(breakEven, aggBRL, shortfallBrl);
-  },
-
-  refreshTranches(remainderEuro) {
-    const planContainer = document.getElementById('strategyPlan');
-    if(remainderEuro <= 0) {
-      planContainer.innerHTML = `<div class="timeline-item" style="border-left-color: var(--neon-green)"><div class="timeline-title" style="color: var(--neon-green)">Posição Liquidada</div></div>`;
-      return;
-    }
-    const slice = remainderEuro / 3;
-    planContainer.innerHTML = `
-      <div class="timeline-item" style="border-left-color: var(--cyan)">
-        <div class="timeline-title">Fração Tática de Proteção Próxima</div>
-        <div class="timeline-text">Alocar <strong>€ ${slice.toFixed(2)}</strong> focado estritamente na necessidade atual do saldo.</div>
-      </div>
-    `;
-  },
-
-  generateRecommendation() {
-    const currentRate = State.current ? State.current.price : 5.95;
-    const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
-    let title='', css='', text='';
-    if(currentRate <= targetRate) {
-      title = 'EXECUTAR ORDENS'; css = 'buy'; text = 'Aproveite as janelas atuais para aportes fracionados.';
-    } else {
-      title = 'AGUARDAR CORREÇÃO'; css = 'danger'; text = 'Aguarde recuo técnico em direção ao preço alvo configurado.';
-    }
-    document.getElementById('recommendationContainer').innerHTML = `<div class="recommendation ${css}"><div class="recommendation-title">${title}</div><div class="small">${text}</div></div>`;
-  },
-
-  editOrder(id) {
-    const order = database.find(item => item.id === id); if(!order) return;
-    document.getElementById('edit-order-id').value = order.id;
-    document.getElementById('order-brl').value = order.brl;
-    document.getElementById('order-rate').value = order.rate;
-    document.getElementById('boleta-mode-title').innerText = "Modificar Ordem Existente";
-    document.getElementById('submit-boleta-btn').innerText = "Salvar Alterações";
-    document.getElementById('cancel-edit-btn').style.display = "inline-block";
-    Terminal.log(`Ordem carregada para edição técnica.`);
-  },
-
-  cancelEdit() {
-    document.getElementById('boleta-form').reset();
-    document.getElementById('edit-order-id').value = "";
-    document.getElementById('boleta-mode-title').innerText = "Registrar Nova Ordem (Boleta)";
-    document.getElementById('submit-boleta-btn').innerText = "Enviar Ordem";
-    document.getElementById('cancel-edit-btn').style.display = "none";
-  },
-
-  executeOrder(e) {
-    e.preventDefault();
-    const brl = parseFloat(document.getElementById('order-brl').value);
-    const rate = parseFloat(document.getElementById('order-rate').value);
-    const editId = document.getElementById('edit-order-id').value;
-
-    if(brl > 0 && rate > 0) {
-      if(editId) {
-        const index = database.findIndex(item => item.id == editId);
-        if(index !== -1) {
-          database[index].brl = brl;
-          database[index].rate = rate;
-          Terminal.log(`Ordem ID ${editId} modificada e recalculada.`);
-        }
-        this.cancelEdit();
-      } else {
-        const dateISO = new Date().toISOString().split('T')[0];
-        database.push({ id: Date.now(), date: dateISO, brl: brl, rate: rate });
-        Terminal.log(`Nova ordem acoplada ao ledger histórico.`);
-        document.getElementById('boleta-form').reset();
+    <style>
+      :root {
+        --bg: #050b14;
+        --bg2: #0c1527;
+        --card: #10192d;
+        --border: #1e355e;
+        --border-focus: #3b82f6;
+        --text: #f8fafc;
+        --muted: #64748b;
+        --green: #22c55e;
+        --neon-green: #00ff66;
+        --neon-accent: #deff9a;
+        --red: #ef4444;
+        --yellow: #f59e0b;
+        --blue: #3b82f6;
+        --purple: #8b5cf6;
+        --cyan: #06b6d4;
       }
-      this.calculateMetrics();
-    }
-  },
 
-  removeOrder(id) {
-    database = database.filter(item => item.id !== id);
-    Terminal.log(`Ordem expurgada da matriz operacional.`);
-    this.calculateMetrics();
-  }
-};
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-document.addEventListener('DOMContentLoaded', () => App.init());
-</script>
+      body {
+        background:
+          radial-gradient(circle at top left, #122547 0%, transparent 35%),
+          radial-gradient(circle at 50% 50%, #091326 0%, transparent 50%),
+          linear-gradient(180deg, #050b14, #0c1527);
+        color: var(--text);
+        font-family: 'JetBrains+Mono', monospace;
+        min-height: 100vh;
+        padding: 20px;
+      }
 
-</body>
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+      }
+
+      .brand h1 {
+        font-family: 'Urbanist', sans-serif;
+        font-weight: 900;
+        font-size: 26px;
+        letter-spacing: -0.5px;
+      }
+
+      .brand h1 span {
+        color: var(--neon-accent);
+      }
+
+      .controls-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--bg2);
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+
+      .refresh-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .refresh-input-wrapper label {
+        margin: 0;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        text-transform: none;
+      }
+
+      .input-refresh {
+        width: 55px;
+        background: #020612;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 4px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+        text-align: center;
+        font-weight: 700;
+        font-family: monospace;
+      }
+
+      .btn-toggle-refresh {
+        background: var(--blue);
+        color: #ffffff;
+        font-size: 11px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        transition: 0.2s;
+        width: auto;
+        text-transform: uppercase;
+      }
+
+      .btn-toggle-refresh.paused {
+        background: var(--yellow);
+        color: #000000;
+      }
+
+      .audio-switch {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #111d35;
+        padding: 4px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      .audio-switch.active {
+        border-color: var(--neon-green);
+        color: var(--neon-green);
+      }
+
+      .connection {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(34, 197, 94, .08);
+        border: 1px solid rgba(34, 197, 94, .2);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 11px;
+        color: var(--neon-green);
+      }
+
+      .pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--neon-green);
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: .3;
+          transform: scale(0.9);
+        }
+
+        50% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+
+        100% {
+          opacity: .3;
+          transform: scale(0.9);
+        }
+      }
+
+      .layout-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 15px;
+      }
+
+      .span-3 {
+        grid-column: span 3;
+      }
+
+      .span-4 {
+        grid-column: span 4;
+      }
+
+      .span-5 {
+        grid-column: span 5;
+      }
+
+      .span-6 {
+        grid-column: span 6;
+      }
+
+      .span-7 {
+        grid-column: span 7;
+      }
+
+      .span-8 {
+        grid-column: span 8;
+      }
+
+      .span-12 {
+        grid-column: span 12;
+      }
+
+      .card {
+        background-color: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        position: relative;
+      }
+
+      .card:hover {
+        border-color: var(--blue);
+      }
+
+      .card-title {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 24px;
+        position: relative;
+      }
+
+      .hero-label {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .hero-price {
+        font-size: 52px;
+        font-weight: 900;
+        letter-spacing: -1px;
+        margin: 10px 0;
+        font-family: 'Urbanist', sans-serif;
+        transition: text-shadow 0.3s;
+      }
+
+      .hero.radar-alert {
+        animation: radarGlow 1s infinite alternate;
+      }
+
+      @keyframes radarGlow {
+        from {
+          background-color: var(--bg2);
+          box-shadow: inset 0 0 10px rgba(239, 68, 68, 0);
+        }
+
+        to {
+          background-color: rgba(239, 68, 68, 0.1);
+          box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.3);
+          border-color: var(--red);
+        }
+      }
+
+      .market-narrative {
+        max-width: 900px;
+        margin: auto;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 12px;
+      }
+
+      .kpi {
+        background: #020612;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 12px;
+        text-align: center;
+      }
+
+      .kpi-label {
+        color: var(--muted);
+        font-size: 10px;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+      }
+
+      .kpi-value {
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .good {
+        color: var(--neon-green);
+      }
+
+      .bad {
+        color: var(--red);
+      }
+
+      .warn {
+        color: var(--yellow);
+      }
+
+      .info {
+        color: var(--cyan);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 10px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      input,
+      select {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: border-color 0.2s;
+        outline: none;
+        font-family: 'JetBrains+Mono', monospace;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: var(--blue);
+      }
+
+      button {
+        border: none;
+        background: var(--neon-accent);
+        color: #020612;
+        padding: 10px 14px;
+        border-radius: 4px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s;
+        font-family: 'Urbanist', sans-serif;
+        text-transform: uppercase;
+        font-size: 12px;
+        width: 100%;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0 12px rgba(222, 255, 154, 0.3);
+      }
+
+      .action-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-size: 12px;
+        width: auto;
+        display: inline-block;
+        margin-right: 8px;
+      }
+
+      .trash-btn {
+        color: var(--red);
+      }
+
+      .edit-btn {
+        color: var(--blue);
+      }
+
+      .table-container {
+        overflow-x: auto;
+        max-height: 200px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        font-size: 12px;
+      }
+
+      th {
+        color: var(--neon-accent);
+        font-size: 11px;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .alert {
+        background: rgba(59, 130, 246, .05);
+        border: 1px dashed var(--blue);
+        padding: 14px;
+        border-radius: 6px;
+        line-height: 1.6;
+        font-size: 12px;
+      }
+
+      .alert-stream {
+        height: 120px;
+        overflow-y: auto;
+        background: #020612;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 12px;
+        font-family: 'JetBrains+Mono', monospace;
+        font-size: 11px;
+      }
+
+      .stream-line {
+        margin-bottom: 4px;
+        color: #b8c7e4;
+        line-height: 1.3;
+      }
+
+      .stream-line strong {
+        color: var(--cyan);
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .timeline-item {
+        background: #020612;
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--border);
+        padding: 12px;
+        border-radius: 4px;
+      }
+
+      .timeline-title {
+        font-weight: 700;
+        margin-bottom: 4px;
+        font-size: 12px;
+      }
+
+      .timeline-text {
+        color: var(--muted);
+        line-height: 1.4;
+        font-size: 11px;
+      }
+
+      .recommendation {
+        padding: 16px;
+        border-radius: 6px;
+        margin-top: 12px;
+      }
+
+      .buy {
+        background: rgba(34, 197, 94, .1);
+        border: 1px solid var(--green);
+      }
+
+      .wait {
+        background: rgba(245, 158, 11, .1);
+        border: 1px solid var(--yellow);
+      }
+
+      .danger {
+        background: rgba(239, 68, 68, .1);
+        border: 1px solid var(--red);
+      }
+
+      .recommendation-title {
+        font-size: 20px;
+        font-weight: 900;
+        margin-bottom: 6px;
+        font-family: 'Urbanist', sans-serif;
+      }
+
+      .canvas-container {
+        position: relative;
+        background: #020612;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        padding: 8px;
+        width: 100%;
+        height: 150px;
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .flight-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #020612;
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+        font-size: 11px;
+      }
+
+      .flight-badge {
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: bold;
+        background: var(--border);
+        color: var(--text);
+      }
+
+      .progress-wrapper {
+        background: var(--bg);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 8px;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--cyan), var(--neon-accent));
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+
+      .countdown-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        text-align: center;
+        margin-top: 5px;
+      }
+
+      .countdown-box {
+        background-color: var(--bg);
+        padding: 4px;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .countdown-num {
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--neon-accent);
+      }
+
+      .countdown-lbl {
+        font-size: 8px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="brand">
+        <h1>EURO INTELLIGENCE <span>TERMINAL X</span> </h1>
+      </div>
+
+      <div class="controls-bar">
+        <div id="audioAlertToggle" class="audio-switch active" onclick="AudioRadar.toggle()">
+          <i class="fa-solid fa-volume-high"></i> <span>SONAR ALVO: LIGADO</span>
+        </div>
+
+        <div class="refresh-input-wrapper">
+          <label for="refreshIntervalInput">⏱️ Tempo:</label>
+          <input type="number" id="refreshIntervalInput" class="input-refresh" value="15" min="2" max="3600"
+            onchange="Realtime.handleIntervalChange()">
+        </div>
+        <button id="toggleRefreshBtn" class="btn-toggle-refresh" onclick="Realtime.toggleStatus()">PAUSAR</button>
+
+        <div class="connection">
+          <div class="pulse" id="connectionPulse"></div>
+          <div id="connectionStatus">ONLINE · 0ms</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card span-12"
+      style="background: linear-gradient(90deg, rgba(16, 25, 45, 0.8), rgba(11, 22, 41, 0.9)); border-left: 4px solid var(--neon-accent); margin-bottom: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="font-size: 14px; font-weight: 500;" id="algo-signal">
+        <i class="fa-solid fa-sync fa-spin"></i> Inicializando telemetria...
+      </div>
+      <div style="font-size: 11px; color: var(--muted)">BOOKING CODE REFERENCE: <strong
+          style="color:var(--cyan)">S8W6I</strong></div>
+    </section>
+
+    <div class="layout-grid">
+
+      <section class="card span-12 hero" id="heroPriceCard">
+        <div class="hero-label">EUR / BRL Real-Time Feed · Live Commercial Price</div>
+        <div class="hero-price good" id="mainPrice">R$ 0,0000</div>
+        <div class="market-narrative" id="marketNarrative">Conectando malha de pacotes de dados cambiais...</div>
+      </section>
+
+      <div class="card span-12" style="padding: 0; border: none; background: transparent;">
+        <div class="layout-grid">
+          <div class="kpi span-3">
+            <div class="kpi-label">Score de Oportunidade</div>
+            <div class="kpi-value good" id="score">0/100</div>
+          </div>
+          <div class="kpi span-3">
+            <div class="kpi-label">Tendência de Mercado</div>
+            <div class="kpi-value info" id="trend">-</div>
+          </div>
+          <div class="kpi span-3">
+            <div class="kpi-label">RSI Estocástico (14D)</div>
+            <div class="kpi-value info" id="rsi">0</div>
+          </div>
+          <div class="kpi span-3">
+            <div class="kpi-label">Volatilidade Corrente</div>
+            <div class="kpi-value warn" id="volatility">0.00%</div>
+          </div>
+        </div>
+      </div>
+
+      <section class="card span-5">
+        <div class="card-title">
+          <span>Painel de Parametrização & Bolso</span>
+          <i class="fa-solid fa-sliders" style="color: var(--neon-accent)"></i>
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label>Perfil da Viagem (24 Dias Solo)</label>
+          <select id="travelProfile" onchange="App.handleProfileChange()">
+            <option value="115">Mochileiro Smart (€ 115 / dia)</option>
+            <option value="170" selected>Conforto Recomendado (€ 170 / dia)</option>
+            <option value="235">Premium Executivo (€ 235 / dia)</option>
+          </select>
+        </div>
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+          <div>
+            <label>Volume Alocado (€)</label>
+            <input type="number" id="euroAmount" value="4080"
+              oninput="Storage.saveUserPreferences(); App.calculateMetrics();">
+          </div>
+          <div>
+            <label>Preço Alvo Desejado (R$)</label>
+            <input type="number" id="targetPrice" value="6.10" step="0.01" oninput="App.calculateMetrics()">
+          </div>
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label>Estratégia de Aquisição</label>
+          <select id="strategy" onchange="Storage.saveUserPreferences(); App.calculateMetrics();">
+            <option value="dca">Dollar Cost Averaging (Fracionado)</option>
+            <option value="aggressive">Tranches de Proteção Estocástica</option>
+            <option value="compulsive">Liquidação Compulsória Pré-Embarque</option>
+          </select>
+        </div>
+        <button style="margin-top:5px;" onclick="App.generateRecommendation()">Gerar Estratégia Inteligente</button>
+        <div id="recommendationContainer"></div>
+
+        <div style="margin-top: 15px; border-top: 1px dashed var(--border); padding-top: 12px;">
+          <label>Contagem Regressiva Para Embarque (05/Out)</label>
+          <div class="countdown-grid">
+            <div class="countdown-box">
+              <div class="countdown-num" id="cd-d">00</div>
+              <div class="countdown-lbl">Dias</div>
+            </div>
+            <div class="countdown-box">
+              <div class="countdown-num" id="cd-h">00</div>
+              <div class="countdown-lbl">Horas</div>
+            </div>
+            <div class="countdown-box">
+              <div class="countdown-num" id="cd-m">00</div>
+              <div class="countdown-lbl">Min</div>
+            </div>
+            <div class="countdown-box">
+              <div class="countdown-num" id="cd-s">00</div>
+              <div class="countdown-lbl">Seg</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-7">
+        <div class="card-title">
+          <span>Matriz de Custódia & Progresso Estratégico</span>
+          <span id="progress-percentage" style="color: var(--cyan); font-weight: bold;">0.0%</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px;">
+          <div
+            style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
+            <label>Meta de Viagem Configurada</label>
+            <div id="matrixTargetTotal" style="font-size: 20px; font-weight: 700; color: var(--text-main);">€ 4.080,00
+            </div>
+          </div>
+          <div
+            style="background: rgba(34, 197, 94, 0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--green);">
+            <label>Custódia Comprada Real</label>
+            <div id="matrixCurrentTotal" style="font-size: 20px; font-weight: 700; color: var(--neon-green);">€ 0,00</div>
+          </div>
+          <div
+            style="background: rgba(239, 68, 68, 0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--red);">
+            <label>Saldo Líquido Remanescente</label>
+            <div id="matrixRemainderEuro" style="font-size: 20px; font-weight: 700; color: var(--red);">€ 4.080,00</div>
+          </div>
+          <div
+            style="background: rgba(245, 158, 11, 0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--yellow);">
+            <label>Custo de Liquidação (API Viva)</label>
+            <div id="matrixCurrentTotalBrl" style="font-size: 20px; font-weight: 700; color: var(--yellow);">R$ 0,00</div>
+          </div>
+        </div>
+
+        <div
+          style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border-top: 1px dashed var(--border); padding-top: 12px; margin-bottom: 10px;">
+          <div>
+            <label>Custo Planejado (Alvo)</label>
+            <div id="matrixTargetTotalBrl" style="font-weight: 700; font-size: 13px;">R$ 0,00</div>
+          </div>
+          <div>
+            <label>Risco Cambial (Delta)</label>
+            <div id="matrixBrlDelta" style="font-weight: 700; font-size: 13px;">R$ 0,00</div>
+          </div>
+          <div style="text-align: right;">
+            <label>Status do Saldo</label>
+            <span id="remainder-status-badge"
+              style="font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; display: inline-block; margin-top: 2px;">-</span>
+          </div>
+        </div>
+
+        <div class="progress-wrapper">
+          <div class="progress-fill" id="progressBarFill"></div>
+        </div>
+
+        <div class="card-title" style="font-size:10px; margin-top:18px; margin-bottom: 8px;">Planejamento Tático de
+          Tranches</div>
+        <div class="timeline" id="strategyPlan"></div>
+      </section>
+
+      <section class="card span-12" style="background: #091121; border-color: var(--cyan);">
+        <div class="card-title" style="color: var(--cyan); font-weight: bold;">
+          <span><i class="fa-solid#"></i> 1. Monitor Analítico de Cotações Externas (API Global)</span>
+        </div>
+        <div class="layout-grid">
+          <div class="span-6">
+            <label style="margin-bottom: 6px;">Histórico Recente da API de Câmbio vs Seu Alvo</label>
+            <div class="canvas-container"><canvas id="priceChart"></canvas></div>
+          </div>
+          <div class="span-6">
+            <label style="margin-bottom: 6px;">Distribuição de Taxas Geradas pelo Servidor</label>
+            <div class="canvas-container"><canvas id="historyChart"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-4">
+        <div class="card-title"><span id="boleta-mode-title">Registrar Nova Ordem (Boleta)</span></div>
+        <form id="boleta-form" onsubmit="App.executeOrder(event)">
+          <input type="hidden" id="edit-order-id" value="">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div>
+              <label>Aporte (BRL)</label>
+              <input type="number" step="0.01" id="order-brl" required placeholder="Ex: 2500.00">
+            </div>
+            <div>
+              <label>Taxa Pura</label>
+              <input type="number" step="0.0001" id="order-rate" required placeholder="Ex: 5.94">
+            </div>
+          </div>
+          <div style="display:flex; gap: 8px;">
+            <button type="submit" id="submit-boleta-btn">Enviar Ordem</button>
+            <button type="button" id="cancel-edit-btn" style="background: var(--muted); display: none;"
+              onclick="App.cancelEdit()">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card span-8">
+        <div class="card-title"><span>Livro de Ordens Liquidadas (Ledger Histórico)</span><span
+            style="font-size: 10px; text-transform:none;">Breakeven Médio: R$ <strong id="portfolio-breakeven"
+              style="color:var(--blue)">0.0000</strong></span></div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Aporte (BRL)</th>
+                <th>Taxa Fixada</th>
+                <th>Líquido (EUR)</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="ledger-entries"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card span-12" style="background: #0b182e; border-color: var(--purple);">
+        <div class="card-title" style="color: var(--purple); font-weight: bold;">
+          <span><i class="fa-solid fa-chart-line"></i> 2. Inteligência Visual do Livro de Ordens (Métricas Internas &
+            Projeções)</span>
+          <span>DADOS INTERNOS</span>
+        </div>
+        <div class="layout-grid">
+          <div class="span-6">
+            <label style="margin-bottom: 6px; color: var(--text);">Evolução das Taxas Compradas vs Linha de Breakeven
+              Real</label>
+            <div class="canvas-container">
+              <canvas id="ledgerEvolutionChart"></canvas>
+            </div>
+            <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
+              <span style="color:#3b82f6">■</span> Taxas Pagas <span style="color:#8b5cf6">▬</span> Seu Breakeven Atual
+            </div>
+          </div>
+
+          <div class="span-6">
+            <label style="margin-bottom: 6px; color: var(--text);">Projeção da Meta Total (€) · Adquirido vs
+              Exposto</label>
+            <div class="canvas-container">
+              <canvas id="portfolioProjectionChart"></canvas>
+            </div>
+            <div style="font-size:9px; color:var(--muted); text-align:center; margin-top:5px;">
+              <span style="color:#22c55e">■</span> Euros em Custódia <span style="color:#f59e0b">■</span> Euros
+              Necessários para Completar
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-12">
+        <div class="card-title"><span>Quantum Flight Logistics Monitor (Iberia Database)</span><i
+            class="fa-solid fa-plane-departure" style="color:var(--cyan)"></i></div>
+        <div class="layout-grid">
+          <div class="span-6">
+            <div class="flight-row">
+              <div>🛫 OUTBOUND: <strong>IB6824 · Iberia Fleet</strong></div>
+              <div class="flight-badge" style="color: var(--neon-green); border-color: var(--green);">05/OUT · 14:30</div>
+            </div>
+            <div class="flight-row">
+              <div>📍 ROUTE: <strong>GRU (Guarulhos) ➔ MAD (Madrid Barajas)</strong></div>
+              <div style="color: var(--muted); font-size: 10px;">ARRIVES 05:55 (+1) · SEAT 32A</div>
+            </div>
+          </div>
+          <div class="span-6">
+            <div class="flight-row">
+              <div>🛬 INBOUND: <strong>IB6827 · Iberia Fleet</strong></div>
+              <div class="flight-badge" style="color: var(--cyan); border-color: var(--blue);">29/OUT · 23:55</div>
+            </div>
+            <div class="flight-row">
+              <div>📍 ROUTE: <strong>MAD (Madrid Barajas) ➔ GRU (Guarulhos)</strong></div>
+              <div style="color: var(--muted); font-size: 10px;">ARRIVES 06:45 (+1) · SEAT 31A</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-12">
+        <div class="card-title"><span>Console do Terminal Executivo X (System Logs)</span><i
+            class="fa-solid fa-terminal"></i></div>
+        <div class="alert-stream" id="terminalStream"></div>
+      </section>
+
+    </div>
+
+    <footer
+      style="margin-top: 30px; text-align: center; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 15px;">
+      Quantum Analytics Architecture V7.8 · PNR S8W6I Sync Lock · Core Systems Protected
+    </footer>
+
+    <script>
+      let database = [
+        { id: 1, date: '04/Mar', brl: 1000.00, rate: 6.3383 },
+        { id: 2, date: '06/Fev', brl: 2197.49, rate: 6.3838 },
+        { id: 3, date: '08/Abr', brl: 3006.95, rate: 6.0139 },
+        { id: 4, date: '09/Abr', brl: 325.93, rate: 6.0469 },
+        { id: 5, date: '19/Mai', brl: 5059.68, rate: 5.8743 },
+        { id: 6, date: '19/Mai', brl: 40.65, rate: 5.8743 }
+      ];
+
+      const State = {
+        quotes: [],
+        current: null,
+        latency: 0,
+        online: true,
+        stream: [],
+        isPaused: false,
+        audioAlertEnabled: true,
+        cacheKey: 'terminal_x_v78_cache'
+      };
+
+      const Events = (() => {
+        const events = {};
+        return {
+          on(event, handler) { if (!events[event]) events[event] = []; events[event].push(handler); },
+          emit(event, data) { if (events[event]) events[event].forEach(fn => fn(data)); }
+        };
+      })();
+
+      const AudioRadar = {
+        ctx: null,
+        lastTrigger: 0,
+        toggle() {
+          State.audioAlertEnabled = !State.audioAlertEnabled;
+          const el = document.getElementById('audioAlertToggle');
+          if (State.audioAlertEnabled) {
+            el.classList.add('active');
+            el.innerHTML = `<i class="fa-solid fa-volume-high"></i> <span>SONAR ALVO: LIGADO</span>`;
+          } else {
+            el.classList.remove('active');
+            el.innerHTML = `<i class="fa-solid fa-volume-xmark"></i> <span>SONAR ALVO: DESLIGADO</span>`;
+          }
+          Storage.saveUserPreferences();
+        },
+        triggerBeep() {
+          if (!State.audioAlertEnabled) return;
+          const now = Date.now(); if (now - this.lastTrigger < 10000) return;
+          this.lastTrigger = now;
+          try {
+            if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+            osc.type = 'sine'; osc.frequency.setValueAtTime(880, this.ctx.currentTime);
+            gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+            osc.connect(gain); gain.connect(this.ctx.destination);
+            osc.start(); osc.stop(this.ctx.currentTime + 0.3);
+          } catch (e) { }
+        }
+      };
+
+      const Storage = {
+        saveQuotes() { localStorage.setItem(State.cacheKey + '_quotes', JSON.stringify({ quotes: State.quotes })); },
+        saveUserPreferences() {
+          const preferences = {
+            targetPrice: document.getElementById('targetPrice').value,
+            euroAmount: document.getElementById('euroAmount').value,
+            travelProfile: document.getElementById('travelProfile').value,
+            refreshInterval: document.getElementById('refreshIntervalInput').value,
+            audioAlertEnabled: State.audioAlertEnabled,
+            isPaused: State.isPaused
+          };
+          localStorage.setItem(State.cacheKey + '_config', JSON.stringify(preferences));
+        },
+        loadAll() {
+          const cacheQuotes = localStorage.getItem(State.cacheKey + '_quotes');
+          if (cacheQuotes) {
+            try {
+              const parsed = JSON.parse(cacheQuotes); State.quotes = parsed.quotes || [];
+              if (State.quotes.length > 0) State.current = State.quotes[State.quotes.length - 1];
+            } catch (err) { }
+          }
+          const cacheConfig = localStorage.getItem(State.cacheKey + '_config');
+          if (cacheConfig) {
+            try {
+              const cfg = JSON.parse(cacheConfig);
+              if (cfg.targetPrice) document.getElementById('targetPrice').value = cfg.targetPrice;
+              if (cfg.euroAmount) document.getElementById('euroAmount').value = cfg.euroAmount;
+              if (cfg.travelProfile) document.getElementById('travelProfile').value = cfg.travelProfile;
+              if (cfg.refreshInterval) document.getElementById('refreshIntervalInput').value = cfg.refreshInterval;
+              if (cfg.isPaused !== undefined) State.isPaused = cfg.isPaused;
+            } catch (err) { }
+          }
+        }
+      };
+
+      const Terminal = {
+        log(message) {
+          const time = new Date().toLocaleTimeString('pt-BR');
+          State.stream.unshift(`[${time}] ${message}`);
+          State.stream = State.stream.slice(0, 30);
+          const streamContainer = document.getElementById('terminalStream');
+          if (streamContainer) {
+            streamContainer.innerHTML = State.stream.map(line => `<div class="stream-line"><strong>></strong> ${line}</div>`).join('');
+          }
+        }
+      };
+
+      const API = {
+        url: 'https://economia.awesomeapi.com.br/json/daily/EUR-BRL/30',
+        async request() {
+          const start = performance.now(); const response = await fetch(this.url);
+          State.latency = Math.round(performance.now() - start); return response.json();
+        }
+      };
+
+      const Analysis = {
+        indicators() {
+          const prices = State.quotes.map(q => q.price); if (prices.length < 2) return null;
+          const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
+          const last = prices[prices.length - 1];
+          const variance = prices.reduce((s, p) => s + Math.pow(p - avg, 2), 0) / prices.length;
+          const volatilityPct = (Math.sqrt(variance) / avg) * 100;
+          const momentum = last - prices[0];
+
+          let trend = 'Lateral'; if (momentum > 0.04) trend = 'Alta'; else if (momentum < -0.04) trend = 'Baixa';
+
+          let gains = 0, losses = 0;
+          for (let i = 1; i < prices.length; i++) {
+            const diff = prices[i] - prices[i - 1]; if (diff > 0) gains += diff; else losses += Math.abs(diff);
+          }
+          const rsi = 100 - (100 / (1 + (gains / (losses || 1))));
+          let score = 50; if (trend === 'Baixa') score += 15; if (rsi < 45) score += 20; if (last < avg) score += 15;
+          return { avg, last, rsi, trend, score: Math.max(0, Math.min(100, score)), volatilityPct };
+        }
+      };
+
+      const Realtime = {
+        loopId: null,
+        async sync() {
+          if (State.isPaused) return;
+          try {
+            const data = await API.request();
+            State.quotes = data.reverse().map(item => ({ price: parseFloat(item.bid), timestamp: Number(item.timestamp) }));
+            State.current = State.quotes[State.quotes.length - 1];
+            Storage.saveQuotes(); Events.emit('market:update');
+            Terminal.log(`Sincronização global concluída. Preço atual: R$ ${State.current.price.toFixed(4)}`);
+          } catch (err) { Terminal.log('Erro de link com o servidor principal de câmbio.'); }
+        },
+        handleIntervalChange() { this.restartLoop(); },
+        toggleStatus() {
+          State.isPaused = !State.isPaused; Storage.saveUserPreferences();
+          const btn = document.getElementById('toggleRefreshBtn');
+          if (State.isPaused) { btn.innerText = "RETOMAR"; btn.classList.add('paused'); }
+          else { btn.innerText = "PAUSAR"; btn.classList.remove('paused'); this.sync(); this.restartLoop(); }
+        },
+        restartLoop() {
+          clearInterval(this.loopId); if (State.isPaused) return;
+          const sec = parseInt(document.getElementById('refreshIntervalInput').value, 10) || 15;
+          this.loopId = setInterval(() => this.sync(), sec * 1000);
+        },
+        start() {
+          Storage.loadAll(); this.sync();
+          const sec = parseInt(document.getElementById('refreshIntervalInput').value, 10) || 15;
+          this.loopId = setInterval(() => this.sync(), sec * 1000);
+        }
+      };
+
+      // MULTI-CHART MATRIX CORE (V7.8 EXPANDIDO)
+      const Charts = {
+        resize(canvas) {
+          const rect = canvas.parentNode.getBoundingClientRect();
+          canvas.width = rect.width - 16; canvas.height = 134;
+        },
+
+        renderAll(breakEven, aggEUR, targetAmount) {
+          const c1 = document.getElementById('priceChart');
+          const c2 = document.getElementById('historyChart');
+          const c3 = document.getElementById('ledgerEvolutionChart');
+          const c4 = document.getElementById('portfolioProjectionChart');
+
+          if (c1) this.resize(c1); if (c2) this.resize(c2);
+          if (c3) this.resize(c3); if (c4) this.resize(c4);
+
+          this.drawPriceChart(c1);
+          this.drawHistoryChart(c2);
+          this.drawLedgerEvolution(c3, breakEven);
+          this.drawPortfolioProjection(c4, aggEUR, targetAmount);
+        },
+
+        drawPriceChart(canvas) {
+          if (!canvas) return; const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const prices = State.quotes.map(q => q.price); if (prices.length < 2) return;
+          const max = Math.max(...prices, parseFloat(document.getElementById('targetPrice').value || 0)) * 1.01;
+          const min = Math.min(...prices, parseFloat(document.getElementById('targetPrice').value || 9)) * 0.99;
+          const pL = 35, pB = 15, gW = canvas.width - pL - 5, gH = canvas.height - pB - 5;
+
+          ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)'; ctx.beginPath(); ctx.moveTo(pL, 5); ctx.lineTo(pL, canvas.height - pB); ctx.lineTo(canvas.width - 5, canvas.height - pB); ctx.stroke();
+          const targetY = canvas.height - pB - ((parseFloat(document.getElementById('targetPrice').value) - min) / (max - min)) * gH;
+          ctx.strokeStyle = 'rgba(239, 68, 68, 0.5)'; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(pL, targetY); ctx.lineTo(canvas.width - 5, targetY); ctx.stroke(); ctx.setLineDash([]);
+
+          ctx.beginPath(); ctx.lineWidth = 1.5; ctx.strokeStyle = '#00ff66';
+          prices.forEach((p, i) => {
+            const x = pL + (i / (prices.length - 1)) * gW; const y = canvas.height - pB - ((p - min) / (max - min)) * gH;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+        },
+
+        drawHistoryChart(canvas) {
+          if (!canvas) return; const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (State.quotes.length === 0) return;
+          const prices = State.quotes.map(q => q.price);
+          const max = Math.max(...prices) * 1.01; const min = Math.min(...prices) * 0.99;
+          const pL = 35, pB = 15, gW = canvas.width - pL - 5, gH = canvas.height - pB - 5;
+
+          ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)'; ctx.beginPath(); ctx.moveTo(pL, 5); ctx.lineTo(pL, canvas.height - pB); ctx.lineTo(canvas.width - 5, canvas.height - pB); ctx.stroke();
+          ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+          State.quotes.forEach((q, i) => {
+            const x = pL + (i / State.quotes.length) * gW; const y = canvas.height - pB - ((q.price - min) / (max - min)) * gH;
+            ctx.fillRect(x, y, Math.max(2, gW / State.quotes.length - 2), canvas.height - pB - y);
+          });
+        },
+
+        // NOVO GRÁFICO 3: GRÁFICO DE EVOLUÇÃO DAS ORDENS REALIZADAS VS BREAKEVEN
+        drawLedgerEvolution(canvas, breakEven) {
+          if (!canvas) return; const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (database.length === 0) return;
+
+          const rates = database.map(d => d.rate);
+          const max = Math.max(...rates, breakEven) * 1.02;
+          const min = Math.min(...rates, breakEven) * 0.98;
+          const pL = 35, pB = 15, gW = canvas.width - pL - 5, gH = canvas.height - pB - 5;
+
+          ctx.strokeStyle = 'rgba(30, 53, 94, 0.4)'; ctx.beginPath(); ctx.moveTo(pL, 5); ctx.lineTo(pL, canvas.height - pB); ctx.lineTo(canvas.width - 5, canvas.height - pB); ctx.stroke();
+
+          // Desenha linha de tendência das ordens executadas
+          ctx.beginPath(); ctx.lineWidth = 2; ctx.strokeStyle = '#3b82f6';
+          database.forEach((item, i) => {
+            const x = pL + (i / (database.length - 1 || 1)) * gW;
+            const y = canvas.height - pB - ((item.rate - min) / (max - min)) * gH;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+
+          // Pontos nas junções das ordens
+          database.forEach((item, i) => {
+            const x = pL + (i / (database.length - 1 || 1)) * gW;
+            const y = canvas.height - pB - ((item.rate - min) / (max - min)) * gH;
+            ctx.fillStyle = '#deff9a'; ctx.beginPath(); ctx.arc(x, y, 4, 0, 2 * Math.PI); ctx.fill();
+          });
+
+          // Linha do Breakeven Médio
+          if (breakEven > 0) {
+            const beY = canvas.height - pB - ((breakEven - min) / (max - min)) * gH;
+            ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+            ctx.beginPath(); ctx.moveTo(pL, beY); ctx.lineTo(canvas.width - 5, beY); ctx.stroke(); ctx.setLineDash([]);
+          }
+        },
+
+        // NOVO GRÁFICO 4: PROGRESSO DO ALVO COMPLETO (PROJEÇÃO FUTURA)
+        drawPortfolioProjection(canvas, aggEUR, targetAmount) {
+          if (!canvas) return; const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          const remainder = Math.max(0, targetAmount - aggEUR);
+          const pctComprado = targetAmount > 0 ? (aggEUR / targetAmount) : 0;
+
+          const barH = 30; const yPos = (canvas.height / 2) - (barH / 2);
+          const sX = 15; const availW = canvas.width - 30;
+
+          // Fundo da barra inteira
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.05)'; ctx.fillRect(sX, yPos, availW, barH);
+
+          // Parte Garantida (Verde)
+          const wGreen = availW * Math.min(1, pctComprado);
+          ctx.fillStyle = '#22c55e'; ctx.fillRect(sX, yPos, wGreen, barH);
+
+          // Parte Exposta/Faltante (Laranja)
+          if (remainder > 0) {
+            ctx.fillStyle = '#f59e0b'; ctx.fillRect(sX + wGreen, yPos, availW - wGreen, barH);
+          }
+
+          // Identificadores textuais
+          ctx.fillStyle = '#ffffff'; ctx.font = '10px monospace';
+          ctx.fillText(`CUSTÓDIA ADQUIRIDA: € ${aggEUR.toFixed(2)} (${(pctComprado * 100).toFixed(1)}%)`, sX, yPos - 8);
+          if (remainder > 0) {
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillText(`EXPOSIÇÃO EM ABERTO: € ${remainder.toFixed(2)}`, sX, yPos + barH + 14);
+          }
+        }
+      };
+
+      const App = {
+        init() {
+          Realtime.start(); this.runCountdown();
+          Events.on('market:update', () => { this.renderTechnicalKPIs(); this.calculateMetrics(); });
+          window.addEventListener('resize', () => this.calculateMetrics());
+        },
+
+        runCountdown() {
+          const target = new Date(`October 5, 2026 14:30:00`).getTime();
+          setInterval(() => {
+            const diff = target - Date.now(); if (diff < 0) return;
+            document.getElementById('cd-d').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('cd-h').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById('cd-m').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById('cd-s').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+          }, 1000);
+        },
+
+        handleProfileChange() {
+          document.getElementById('euroAmount').value = Number(document.getElementById('travelProfile').value) * 24;
+          Storage.saveUserPreferences(); this.calculateMetrics();
+        },
+
+        renderTechnicalKPIs() {
+          const ind = Analysis.indicators(); if (!ind) return;
+          document.getElementById('mainPrice').innerText = `R$ ${ind.last.toFixed(4)}`;
+          document.getElementById('score').innerText = `${ind.score}/100`;
+          document.getElementById('trend').innerText = ind.trend;
+          document.getElementById('rsi').innerText = ind.rsi.toFixed(0);
+          document.getElementById('volatility').innerText = `${ind.volatilityPct.toFixed(2)}%`;
+
+          document.getElementById('marketNarrative').innerText = `Mercado operando em padrão de ${ind.trend}. RSI Estocástico fixado em ${ind.rsi.toFixed(0)} pontos.`;
+          if (ind.last <= parseFloat(document.getElementById('targetPrice').value || 6.10)) { AudioRadar.triggerBeep(); }
+        },
+
+        calculateMetrics() {
+          let aggBRL = 0; let aggEUR = 0;
+          const targetAmount = parseFloat(document.getElementById('euroAmount').value) || 4080;
+          const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
+          const currentRate = State.current ? State.current.price : 5.95;
+
+          const tbody = document.getElementById('ledger-entries'); tbody.innerHTML = '';
+
+          database.forEach(item => {
+            const computedEUR = item.brl / item.rate; aggBRL += item.brl; aggEUR += computedEUR;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+          <td>${item.date}</td>
+          <td>R$ ${item.brl.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+          <td>${item.rate.toFixed(4)}</td>
+          <td style="color:var(--neon-accent); font-weight:bold;">${computedEUR.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} €</td>
+          <td>
+            <button class="action-btn edit-btn" onclick="App.editOrder(${item.id})"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button class="action-btn trash-btn" onclick="App.removeOrder(${item.id})"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        `;
+            tbody.appendChild(tr);
+          });
+
+          const breakEven = aggEUR > 0 ? (aggBRL / aggEUR) : 0;
+          document.getElementById('portfolio-breakeven').innerText = breakEven.toFixed(4);
+
+          const remainderEuro = Math.max(0, targetAmount - aggEUR);
+          const progressPct = (aggEUR / targetAmount) * 100;
+          const plannedCostBrl = remainderEuro * targetRate;
+          const shortfallBrl = remainderEuro * currentRate;
+          const deltaBrl = shortfallBrl - plannedCostBrl;
+
+          document.getElementById('matrixTargetTotal').innerText = `€ ${targetAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+          document.getElementById('matrixCurrentTotal').innerText = `€ ${aggEUR.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+          document.getElementById('matrixRemainderEuro').innerText = `€ ${remainderEuro.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+          document.getElementById('matrixCurrentTotalBrl').innerText = `R$ ${shortfallBrl.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+          document.getElementById('matrixTargetTotalBrl').innerText = `R$ ${plannedCostBrl.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+          const deltaEl = document.getElementById('matrixBrlDelta');
+          deltaEl.innerText = `${deltaBrl >= 0 ? '+' : ''} R$ ${deltaBrl.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+          const badge = document.getElementById('remainder-status-badge');
+          if (remainderEuro <= 0) { badge.innerText = "COMPLETO"; badge.style.backgroundColor = "rgba(34,197,94,0.2)"; }
+          else { badge.innerText = deltaBrl <= 0 ? "COBERTURA OK" : "RISCO CAMBIAL"; badge.style.backgroundColor = deltaBrl <= 0 ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)"; }
+
+          document.getElementById('progress-percentage').innerText = `${progressPct.toFixed(1)}%`;
+          document.getElementById('progressBarFill').style.width = `${Math.min(100, progressPct)}%`;
+
+          Charts.renderAll(breakEven, aggEUR, targetAmount);
+        },
+
+        generateRecommendation() {
+          const currentRate = State.current ? State.current.price : 5.95;
+          const targetRate = parseFloat(document.getElementById('targetPrice').value) || 6.10;
+          const css = currentRate <= targetRate ? 'buy' : 'danger';
+          const title = currentRate <= targetRate ? 'EXECUTAR ORDEM' : 'AGUARDAR CORREÇÃO';
+          document.getElementById('recommendationContainer').innerHTML = `<div class="recommendation ${css}"><div class="recommendation-title">${title}</div></div>`;
+        },
+
+        editOrder(id) {
+          const order = database.find(item => item.id === id); if (!order) return;
+          document.getElementById('edit-order-id').value = order.id;
+          document.getElementById('order-brl').value = order.brl;
+          document.getElementById('order-rate').value = order.rate;
+          document.getElementById('boleta-mode-title').innerText = "Modificar Ordem";
+          document.getElementById('cancel-edit-btn').style.display = "inline-block";
+        },
+
+        cancelEdit() {
+          document.getElementById('boleta-form').reset(); document.getElementById('edit-order-id').value = "";
+          document.getElementById('boleta-mode-title').innerText = "Registrar Nova Ordem (Boleta)";
+          document.getElementById('cancel-edit-btn').style.display = "none";
+        },
+
+        executeOrder(e) {
+          e.preventDefault(); const brl = parseFloat(document.getElementById('order-brl').value);
+          const rate = parseFloat(document.getElementById('order-rate').value); const editId = document.getElementById('edit-order-id').value;
+          if (brl > 0 && rate > 0) {
+            if (editId) {
+              const index = database.findIndex(item => item.id == editId);
+              if (index !== -1) { database[index].brl = brl; database[index].rate = rate; }
+              this.cancelEdit();
+            } else {
+              database.push({ id: Date.now(), date: 'Hoje', brl: brl, rate: rate });
+              document.getElementById('boleta-form').reset();
+            }
+            this.calculateMetrics();
+          }
+        },
+
+        removeOrder(id) { database = database.filter(item => item.id !== id); this.calculateMetrics(); }
+      };
+
+      document.addEventListener('DOMContentLoaded', () => App.init());
+    </script>
+  </body>
 </html>
